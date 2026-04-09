@@ -1,0 +1,22 @@
+{
+  "name": "strategy-deployment-zap",
+  "version": "v0.1.0",
+  "description": "Makina strategy deployment zap contracts",
+  "repository": "https://github.com/MakinaHQ/strategy-deployment-zap.git",
+  "author": "MakinaHQ",
+  "license": "SEE LICENSE IN LICENSE",
+  "devDependencies": {
+    "prettier": "3.8.1",
+    "solhint": "6.2.1"
+  },
+  "type": "module",
+  "dependencies": {},
+  "scripts": {
+    "lint": "yarn lint:sol && yarn prettier:check",
+    "lint:sol": "forge fmt --check && yarn solhint \"{script,src,test}/**/*.sol\"",
+    "prettier:check": "prettier --check \"**/*.{js,json,md,yml}\" \"!script/deployments/outputs/**/*\"",
+    "prettier:write": "prettier --write \"**/*.{js,json,md,yml}\" \"!script/deployments/outputs/**/*\"",
+    "coverage": "FOUNDRY_FUZZ_RUNS=32 forge coverage --no-match-coverage \"(script|test)\"",
+    "coverage:debug": "FOUNDRY_FUZZ_RUNS=32 forge coverage --no-match-coverage \"(script|test)\" --report debug"
+  }
+}
