@@ -1,0 +1,6 @@
+@openzeppelin/contracts/=lib/openzeppelin-contracts-upgradeable/lib/openzeppelin-contracts/contracts/
+@openzeppelin/contracts-upgradeable/=lib/openzeppelin-contracts-upgradeable/contracts/
+@makina-core/=lib/makina-core/src/
+@makina-core-test/=lib/makina-core/test/
+@makina-periphery/=lib/makina-periphery/src
+@makina-periphery-test/=lib/makina-periphery/test/
