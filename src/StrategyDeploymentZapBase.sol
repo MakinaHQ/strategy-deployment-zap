@@ -33,8 +33,8 @@ contract StrategyDeploymentZapBase is IStrategyDeploymentZap, Ownable {
             revert InvalidDelay();
         }
 
-        scheduledDeployments[executor][payloadHash] = block.timestamp + delay;
-        emit DeploymentScheduled(executor, payloadHash, block.timestamp + delay);
+        scheduledDeployments[executor][payloadHash] = timepoint;
+        emit DeploymentScheduled(executor, payloadHash, timepoint);
     }
 
     /// @inheritdoc IStrategyDeploymentZap
