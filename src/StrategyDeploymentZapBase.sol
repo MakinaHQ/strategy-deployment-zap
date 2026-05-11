@@ -38,8 +38,7 @@ contract StrategyDeploymentZapBase is IStrategyDeploymentZap, Ownable {
     }
 
     /// @inheritdoc IStrategyDeploymentZap
-    function cancelDeployment(address executor, bytes calldata payload) external onlyOwner {
-        bytes32 payloadHash = keccak256(payload);
+    function cancelDeployment(address executor, bytes32 payloadHash) external onlyOwner {
         if (scheduledDeployments[executor][payloadHash] == 0) {
             revert DeploymentNotScheduled();
         }
@@ -51,7 +50,7 @@ contract StrategyDeploymentZapBase is IStrategyDeploymentZap, Ownable {
         emit DeploymentCanceled(executor, payloadHash);
     }
 
-    /// @dev Checks that the deployment identified by the executor and payload hash is ready to be executed and marks it as executed.
+    /// @dev Checks that the deployment identified by the executor and payload hash is ready to be executed, and marks it as executed.
     function _consumeSchedule(address executor, bytes32 payloadHash) internal {
         if (scheduledDeployments[executor][payloadHash] == 0) {
             revert DeploymentNotScheduled();
