@@ -27,6 +27,6 @@ interface IStrategyDeploymentZap {
 
     /// @notice Cancels a scheduled strategy deployment.
     /// @param executor The address of the executor of the deployment.
-    /// @param payload The encoded deployment payload.
-    function cancelDeployment(address executor, bytes calldata payload) external;
+    /// @param payloadHash The hash of the deployment payload.
+    function cancelDeployment(address executor, bytes32 payloadHash) external;
 }

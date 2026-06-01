@@ -10,26 +10,26 @@ import {StrategyDeploymentZap_Unit_Concrete_Test} from "../StrategyDeploymentZap
 abstract contract CancelDeployment_Unit_Concrete_Test is StrategyDeploymentZap_Unit_Concrete_Test {
     address internal executor;
     bytes internal payload;
+    bytes32 internal payloadHash;
 
     function setUp() public virtual override {
         executor = makeAddr("Executor");
         payload = hex"1234";
+        payloadHash = keccak256(payload);
     }
 
     function test_RevertWhen_CallerNotOwner() public {
         vm.expectRevert(abi.encodeWithSelector(Ownable.OwnableUnauthorizedAccount.selector, address(this)));
-        strategyDeploymentZap.cancelDeployment(address(0), "");
+        strategyDeploymentZap.cancelDeployment(address(0), 0);
     }
 
     function test_RevertWhen_DeploymentNotScheduled() public {
         vm.expectRevert(IStrategyDeploymentZap.DeploymentNotScheduled.selector);
         vm.prank(dao);
-        strategyDeploymentZap.cancelDeployment(address(0), "");
+        strategyDeploymentZap.cancelDeployment(address(0), 0);
     }
 
     function test_RevertWhen_DeploymentAlreadyExecuted() public {
-        bytes32 payloadHash = keccak256(payload);
-
         // Simulate execution of a deployment
         vm.store(
             address(strategyDeploymentZap),
@@ -39,7 +39,7 @@ abstract contract CancelDeployment_Unit_Concrete_Test is StrategyDeploymentZap_U
 
         vm.expectRevert(IStrategyDeploymentZap.DeploymentAlreadyExecuted.selector);
         vm.prank(dao);
-        strategyDeploymentZap.cancelDeployment(address(executor), payload);
+        strategyDeploymentZap.cancelDeployment(address(executor), payloadHash);
     }
 
     function test_CancelDeployment_BeforeTimepoint() public {
@@ -48,8 +48,8 @@ abstract contract CancelDeployment_Unit_Concrete_Test is StrategyDeploymentZap_U
         strategyDeploymentZap.scheduleDeployment(address(executor), payload, 1 hours);
 
         vm.expectEmit(true, true, false, true);
-        emit IStrategyDeploymentZap.DeploymentCanceled(address(executor), keccak256(payload));
-        strategyDeploymentZap.cancelDeployment(address(executor), payload);
+        emit IStrategyDeploymentZap.DeploymentCanceled(address(executor), payloadHash);
+        strategyDeploymentZap.cancelDeployment(address(executor), payloadHash);
     }
 
     function test_CancelDeployment_AfterTimepoint() public {
@@ -60,7 +60,7 @@ abstract contract CancelDeployment_Unit_Concrete_Test is StrategyDeploymentZap_U
         skip(1 hours + 1);
 
         vm.expectEmit(true, true, false, true);
-        emit IStrategyDeploymentZap.DeploymentCanceled(address(executor), keccak256(payload));
-        strategyDeploymentZap.cancelDeployment(address(executor), payload);
+        emit IStrategyDeploymentZap.DeploymentCanceled(address(executor), payloadHash);
+        strategyDeploymentZap.cancelDeployment(address(executor), payloadHash);
     }
 }
