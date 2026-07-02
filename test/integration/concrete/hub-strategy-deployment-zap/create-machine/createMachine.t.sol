@@ -3,6 +3,7 @@ pragma solidity 0.8.28;
 
 import {IBridgeAdapterFactory} from "@makina-core/interfaces/IBridgeAdapterFactory.sol";
 import {ICaliber} from "@makina-core/interfaces/ICaliber.sol";
+import {ISpokeSnapshotConsumer} from "@makina-core/interfaces/ISpokeSnapshotConsumer.sol";
 import {Caliber} from "@makina-core/caliber/Caliber.sol";
 import {IMachine} from "@makina-core/interfaces/IMachine.sol";
 import {IMakinaGovernable} from "@makina-core/interfaces/IMakinaGovernable.sol";
@@ -194,6 +195,9 @@ contract CreateMachine_Integration_Concrete_Test is Integration_Concrete_Hub_Tes
         address[] memory initialAccountingAgents = new address[](1);
         initialAccountingAgents[0] = accountingAgent;
 
+        bytes32[] memory initialCreWorkflowIds = new bytes32[](1);
+        initialCreWorkflowIds[0] = DEFAULT_CRE_WORKFLOW_ID;
+
         return IHubStrategyDeploymentZap.CreateMachineZapParams({
             pParams: _defaultPeripheryParams(),
             mParams: IMachine.MachineInitParams({
@@ -225,6 +229,9 @@ contract CreateMachine_Integration_Concrete_Test is Integration_Concrete_Hub_Tes
                 initialAuthority: address(accessManager),
                 initialRestrictedAccountingMode: false,
                 initialAccountingAgents: initialAccountingAgents
+            }),
+            sscParams: ISpokeSnapshotConsumer.SpokeSnapshotConsumerInitParams({
+                initialCreWorkflowIds: initialCreWorkflowIds
             }),
             baParams: new IBridgeAdapterFactory.BridgeAdapterInitParams[](0),
             accountingToken: address(accountingToken),

@@ -7,6 +7,7 @@ import {Caliber} from "@makina-core/caliber/Caliber.sol";
 import {IMachine} from "@makina-core/interfaces/IMachine.sol";
 import {IMakinaGovernable} from "@makina-core/interfaces/IMakinaGovernable.sol";
 import {IPreDepositVault} from "@makina-core/interfaces/IPreDepositVault.sol";
+import {ISpokeSnapshotConsumer} from "@makina-core/interfaces/ISpokeSnapshotConsumer.sol";
 import {Machine} from "@makina-core/machine/Machine.sol";
 import {PreDepositVault} from "@makina-core/pre-deposit/PreDepositVault.sol";
 import {Roles} from "@makina-core/libraries/Roles.sol";
@@ -230,6 +231,9 @@ contract CreateMachineFromPreDeposit_Integration_Concrete_Test is Integration_Co
         address[] memory initialAccountingAgents = new address[](1);
         initialAccountingAgents[0] = accountingAgent;
 
+        bytes32[] memory initialCreWorkflowIds = new bytes32[](1);
+        initialCreWorkflowIds[0] = DEFAULT_CRE_WORKFLOW_ID;
+
         return IHubStrategyDeploymentZap.CreateMachineFromPreDepositZapParams({
             pParams: _defaultPeripheryParams(),
             mParams: IMachine.MachineInitParams({
@@ -261,6 +265,9 @@ contract CreateMachineFromPreDeposit_Integration_Concrete_Test is Integration_Co
                 initialAuthority: address(accessManager),
                 initialRestrictedAccountingMode: false,
                 initialAccountingAgents: initialAccountingAgents
+            }),
+            sscParams: ISpokeSnapshotConsumer.SpokeSnapshotConsumerInitParams({
+                initialCreWorkflowIds: initialCreWorkflowIds
             }),
             baParams: new IBridgeAdapterFactory.BridgeAdapterInitParams[](0),
             preDepositVault: preDepositVault,
