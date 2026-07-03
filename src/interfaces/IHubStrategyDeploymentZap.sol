@@ -5,6 +5,7 @@ import {IBridgeAdapterFactory} from "@makina-core/interfaces/IBridgeAdapterFacto
 import {ICaliber} from "@makina-core/interfaces/ICaliber.sol";
 import {IMachine} from "@makina-core/interfaces/IMachine.sol";
 import {IMakinaGovernable} from "@makina-core/interfaces/IMakinaGovernable.sol";
+import {ISpokeSnapshotConsumer} from "@makina-core/interfaces/ISpokeSnapshotConsumer.sol";
 
 import {IStrategyDeploymentZap} from "./IStrategyDeploymentZap.sol";
 
@@ -25,6 +26,7 @@ interface IHubStrategyDeploymentZap is IStrategyDeploymentZap {
         IMachine.MachineInitParams mParams;
         ICaliber.CaliberInitParams cParams;
         IMakinaGovernable.MakinaGovernableInitParams mgParams;
+        ISpokeSnapshotConsumer.SpokeSnapshotConsumerInitParams sscParams;
         IBridgeAdapterFactory.BridgeAdapterInitParams[] baParams;
         address accountingToken;
         string tokenName;
@@ -38,6 +40,7 @@ interface IHubStrategyDeploymentZap is IStrategyDeploymentZap {
         IMachine.MachineInitParams mParams;
         ICaliber.CaliberInitParams cParams;
         IMakinaGovernable.MakinaGovernableInitParams mgParams;
+        ISpokeSnapshotConsumer.SpokeSnapshotConsumerInitParams sscParams;
         IBridgeAdapterFactory.BridgeAdapterInitParams[] baParams;
         address preDepositVault;
         bytes32 salt;

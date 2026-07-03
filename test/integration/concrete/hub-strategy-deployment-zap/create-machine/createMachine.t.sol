@@ -3,6 +3,7 @@ pragma solidity 0.8.28;
 
 import {IBridgeAdapterFactory} from "@makina-core/interfaces/IBridgeAdapterFactory.sol";
 import {ICaliber} from "@makina-core/interfaces/ICaliber.sol";
+import {ISpokeSnapshotConsumer} from "@makina-core/interfaces/ISpokeSnapshotConsumer.sol";
 import {Caliber} from "@makina-core/caliber/Caliber.sol";
 import {IMachine} from "@makina-core/interfaces/IMachine.sol";
 import {IMakinaGovernable} from "@makina-core/interfaces/IMakinaGovernable.sol";
@@ -19,58 +20,58 @@ import {Integration_Concrete_Hub_Test} from "../../IntegrationConcrete.t.sol";
 
 contract CreateMachine_Integration_Concrete_Test is Integration_Concrete_Hub_Test {
     function test_RevertGiven_DeploymentNotScheduled() public {
-        IHubStrategyDeploymentZap.CreateMachineZapParams memory param;
+        IHubStrategyDeploymentZap.CreateMachineZapParams memory params;
 
         vm.expectRevert(IStrategyDeploymentZap.DeploymentNotScheduled.selector);
-        hubStrategyDeploymentZap.createMachine(param);
+        hubStrategyDeploymentZap.createMachine(params);
     }
 
     function test_RevertGiven_DeploymentNotReady() public {
-        IHubStrategyDeploymentZap.CreateMachineZapParams memory param;
+        IHubStrategyDeploymentZap.CreateMachineZapParams memory params;
 
-        _schedule(param);
+        _schedule(params);
 
         vm.expectRevert(IStrategyDeploymentZap.DeploymentNotReady.selector);
-        hubStrategyDeploymentZap.createMachine(param);
+        hubStrategyDeploymentZap.createMachine(params);
     }
 
     function test_RevertWhen_ConflictingDepositorParams() public {
-        IHubStrategyDeploymentZap.CreateMachineZapParams memory param = _defaultCreateMachineZapParams();
-        param.mParams.initialDepositor = makeAddr("existingDepositor");
+        IHubStrategyDeploymentZap.CreateMachineZapParams memory params = _defaultCreateMachineZapParams();
+        params.mParams.initialDepositor = makeAddr("existingDepositor");
 
-        _schedule(param);
+        _schedule(params);
         skip(scheduleDelay);
 
         vm.expectRevert(IHubStrategyDeploymentZap.ConflictingPeripheryParams.selector);
-        hubStrategyDeploymentZap.createMachine(param);
+        hubStrategyDeploymentZap.createMachine(params);
     }
 
     function test_RevertWhen_ConflictingRedeemerParams() public {
-        IHubStrategyDeploymentZap.CreateMachineZapParams memory param = _defaultCreateMachineZapParams();
-        param.mParams.initialRedeemer = makeAddr("existingRedeemer");
+        IHubStrategyDeploymentZap.CreateMachineZapParams memory params = _defaultCreateMachineZapParams();
+        params.mParams.initialRedeemer = makeAddr("existingRedeemer");
 
-        _schedule(param);
+        _schedule(params);
         skip(scheduleDelay);
 
         vm.expectRevert(IHubStrategyDeploymentZap.ConflictingPeripheryParams.selector);
-        hubStrategyDeploymentZap.createMachine(param);
+        hubStrategyDeploymentZap.createMachine(params);
     }
 
     function test_RevertWhen_ConflictingFeeManagerParams() public {
-        IHubStrategyDeploymentZap.CreateMachineZapParams memory param = _defaultCreateMachineZapParams();
-        param.mParams.initialFeeManager = makeAddr("existingFeeManager");
+        IHubStrategyDeploymentZap.CreateMachineZapParams memory params = _defaultCreateMachineZapParams();
+        params.mParams.initialFeeManager = makeAddr("existingFeeManager");
 
-        _schedule(param);
+        _schedule(params);
         skip(scheduleDelay);
 
         vm.expectRevert(IHubStrategyDeploymentZap.ConflictingPeripheryParams.selector);
-        hubStrategyDeploymentZap.createMachine(param);
+        hubStrategyDeploymentZap.createMachine(params);
     }
 
     function test_CreateMachine() public {
-        IHubStrategyDeploymentZap.CreateMachineZapParams memory param = _defaultCreateMachineZapParams();
+        IHubStrategyDeploymentZap.CreateMachineZapParams memory params = _defaultCreateMachineZapParams();
 
-        bytes memory payload = abi.encodeCall(IHubStrategyDeploymentZap.createMachine, (param));
+        bytes memory payload = abi.encodeCall(IHubStrategyDeploymentZap.createMachine, (params));
 
         vm.prank(dao);
         hubStrategyDeploymentZap.scheduleDeployment(address(this), payload, scheduleDelay);
@@ -88,7 +89,7 @@ contract CreateMachine_Integration_Concrete_Test is Integration_Concrete_Hub_Tes
 
         vm.expectEmit(true, true, false, false, address(hubStrategyDeploymentZap));
         emit IStrategyDeploymentZap.DeploymentExecuted(address(this), keccak256(payload));
-        Machine machine = Machine(hubStrategyDeploymentZap.createMachine(param));
+        Machine machine = Machine(hubStrategyDeploymentZap.createMachine(params));
 
         assertEq(machine.accountingToken(), address(accountingToken));
         assertEq(machine.caliberStaleThreshold(), DEFAULT_MACHINE_CALIBER_STALE_THRESHOLD);
@@ -123,20 +124,20 @@ contract CreateMachine_Integration_Concrete_Test is Integration_Concrete_Hub_Tes
     }
 
     function test_CreateMachine_WithPreExistingDepositorAndRedeemer() public {
-        IHubStrategyDeploymentZap.CreateMachineZapParams memory param = _defaultCreateMachineZapParams();
+        IHubStrategyDeploymentZap.CreateMachineZapParams memory params = _defaultCreateMachineZapParams();
 
         address existingDepositor = makeAddr("existingDepositor");
         address existingRedeemer = makeAddr("existingRedeemer");
 
-        param.pParams.depositorImplemId = 0;
-        param.pParams.depositorInitData = "";
-        param.pParams.redeemerImplemId = 0;
-        param.pParams.redeemerInitData = "";
-        param.mParams.initialDepositor = existingDepositor;
-        param.mParams.initialRedeemer = existingRedeemer;
-        param.salt = bytes32(uint256(TEST_DEPLOYMENT_SALT) + 1);
+        params.pParams.depositorImplemId = 0;
+        params.pParams.depositorInitData = "";
+        params.pParams.redeemerImplemId = 0;
+        params.pParams.redeemerInitData = "";
+        params.mParams.initialDepositor = existingDepositor;
+        params.mParams.initialRedeemer = existingRedeemer;
+        params.salt = bytes32(uint256(TEST_DEPLOYMENT_SALT) + 1);
 
-        bytes memory payload = abi.encodeCall(IHubStrategyDeploymentZap.createMachine, (param));
+        bytes memory payload = abi.encodeCall(IHubStrategyDeploymentZap.createMachine, (params));
 
         vm.prank(dao);
         hubStrategyDeploymentZap.scheduleDeployment(address(this), payload, scheduleDelay);
@@ -148,7 +149,7 @@ contract CreateMachine_Integration_Concrete_Test is Integration_Concrete_Hub_Tes
 
         vm.expectEmit(true, true, false, false, address(hubStrategyDeploymentZap));
         emit IStrategyDeploymentZap.DeploymentExecuted(address(this), keccak256(payload));
-        Machine machine = Machine(hubStrategyDeploymentZap.createMachine(param));
+        Machine machine = Machine(hubStrategyDeploymentZap.createMachine(params));
 
         assertEq(machine.depositor(), existingDepositor);
         assertEq(machine.redeemer(), existingRedeemer);
@@ -165,9 +166,9 @@ contract CreateMachine_Integration_Concrete_Test is Integration_Concrete_Hub_Tes
             depositorImplemId: DIRECT_DEPOSITOR_IMPLEM_ID,
             redeemerImplemId: ASYNC_REDEEMER_IMPLEM_ID,
             feeManagerImplemId: WATERMARK_FEE_MANAGER_IMPLEM_ID,
-            depositorInitData: abi.encode(DEFAULT_INITIAL_WHITELIST_STATUS),
+            depositorInitData: abi.encode(DEFAULT_INITIAL_WHITELIST_STATUS, false),
             redeemerInitData: abi.encode(
-                DEFAULT_FINALIZATION_DELAY, DEFAULT_MIN_REDEEM_AMOUNT, DEFAULT_INITIAL_WHITELIST_STATUS
+                DEFAULT_FINALIZATION_DELAY, DEFAULT_MIN_REDEEM_AMOUNT, DEFAULT_INITIAL_WHITELIST_STATUS, false
             ),
             feeManagerInitData: abi.encode(
                 IWatermarkFeeManager.WatermarkFeeManagerInitParams({
@@ -193,6 +194,9 @@ contract CreateMachine_Integration_Concrete_Test is Integration_Concrete_Hub_Tes
 
         address[] memory initialAccountingAgents = new address[](1);
         initialAccountingAgents[0] = accountingAgent;
+
+        bytes32[] memory initialCreWorkflowIds = new bytes32[](1);
+        initialCreWorkflowIds[0] = DEFAULT_CRE_WORKFLOW_ID;
 
         return IHubStrategyDeploymentZap.CreateMachineZapParams({
             pParams: _defaultPeripheryParams(),
@@ -226,6 +230,9 @@ contract CreateMachine_Integration_Concrete_Test is Integration_Concrete_Hub_Tes
                 initialRestrictedAccountingMode: false,
                 initialAccountingAgents: initialAccountingAgents
             }),
+            sscParams: ISpokeSnapshotConsumer.SpokeSnapshotConsumerInitParams({
+                initialCreWorkflowIds: initialCreWorkflowIds
+            }),
             baParams: new IBridgeAdapterFactory.BridgeAdapterInitParams[](0),
             accountingToken: address(accountingToken),
             tokenName: DEFAULT_MACHINE_SHARE_TOKEN_NAME,
@@ -235,10 +242,10 @@ contract CreateMachine_Integration_Concrete_Test is Integration_Concrete_Hub_Tes
         });
     }
 
-    function _schedule(IHubStrategyDeploymentZap.CreateMachineZapParams memory param) internal {
+    function _schedule(IHubStrategyDeploymentZap.CreateMachineZapParams memory params) internal {
         vm.prank(dao);
         hubStrategyDeploymentZap.scheduleDeployment(
-            address(this), abi.encodeCall(IHubStrategyDeploymentZap.createMachine, (param)), scheduleDelay
+            address(this), abi.encodeCall(IHubStrategyDeploymentZap.createMachine, (params)), scheduleDelay
         );
     }
 }

@@ -126,7 +126,7 @@ abstract contract Base_Hub_Test is Base_Test {
 
         // Hub Periphery
         Periphery_base.Base.HubPeriphery memory hubPeriphery =
-            deployHubPeriphery(address(accessManager), address(hubCoreRegistry), flp);
+            deployHubPeriphery(address(accessManager), address(hubCoreRegistry), address(0), flp);
         hubPeripheryRegistry = hubPeriphery.hubPeripheryRegistry;
         hubPeripheryFactory = hubPeriphery.hubPeripheryFactory;
         directDepositorBeacon = hubPeriphery.directDepositorBeacon;

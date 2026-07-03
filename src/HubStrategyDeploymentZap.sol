@@ -24,17 +24,17 @@ contract HubStrategyDeploymentZap is StrategyDeploymentZapBase, IHubStrategyDepl
     }
 
     /// @inheritdoc IHubStrategyDeploymentZap
-    function createMachine(CreateMachineZapParams calldata params) external returns (address) {
+    function createMachine(CreateMachineZapParams memory params) external returns (address) {
         address sender = msg.sender;
         bytes32 payloadHash = keccak256(msg.data);
 
         _consumeSchedule(sender, payloadHash);
 
-        IMachine.MachineInitParams memory mParams = _resolvePeripheryModules(params.mParams, params.pParams);
+        params.mParams = _resolvePeripheryModules(params.mParams, params.pParams);
 
-        address machine = _deployMachine(params, mParams);
+        address machine = _deployMachine(params);
 
-        _linkFactoryCreatedModules(params.pParams, mParams, machine);
+        _linkFactoryCreatedModules(params.pParams, params.mParams, machine);
 
         emit DeploymentExecuted(sender, payloadHash);
 
@@ -42,7 +42,7 @@ contract HubStrategyDeploymentZap is StrategyDeploymentZapBase, IHubStrategyDepl
     }
 
     /// @inheritdoc IHubStrategyDeploymentZap
-    function createMachineFromPreDeposit(CreateMachineFromPreDepositZapParams calldata params)
+    function createMachineFromPreDeposit(CreateMachineFromPreDepositZapParams memory params)
         external
         returns (address)
     {
@@ -51,11 +51,11 @@ contract HubStrategyDeploymentZap is StrategyDeploymentZapBase, IHubStrategyDepl
 
         _consumeSchedule(sender, payloadHash);
 
-        IMachine.MachineInitParams memory mParams = _resolvePeripheryModules(params.mParams, params.pParams);
+        params.mParams = _resolvePeripheryModules(params.mParams, params.pParams);
 
-        address machine = _deployMachineFromPreDeposit(params, mParams);
+        address machine = _deployMachineFromPreDeposit(params);
 
-        _linkFactoryCreatedModules(params.pParams, mParams, machine);
+        _linkFactoryCreatedModules(params.pParams, params.mParams, machine);
 
         emit DeploymentExecuted(sender, payloadHash);
 
@@ -63,7 +63,7 @@ contract HubStrategyDeploymentZap is StrategyDeploymentZapBase, IHubStrategyDepl
     }
 
     /// @dev Deploys periphery modules via the factory and injects their addresses into mParams.
-    function _resolvePeripheryModules(IMachine.MachineInitParams memory mParams, PeripheryParams calldata pParams)
+    function _resolvePeripheryModules(IMachine.MachineInitParams memory mParams, PeripheryParams memory pParams)
         internal
         returns (IMachine.MachineInitParams memory)
     {
@@ -86,15 +86,13 @@ contract HubStrategyDeploymentZap is StrategyDeploymentZapBase, IHubStrategyDepl
     }
 
     /// @dev Deploys a new Machine via the HubCoreFactory.
-    function _deployMachine(CreateMachineZapParams calldata params, IMachine.MachineInitParams memory mParams)
-        internal
-        returns (address)
-    {
+    function _deployMachine(CreateMachineZapParams memory params) internal returns (address) {
         return IHubCoreFactory(hubCoreFactory)
             .createMachine(
-                mParams,
+                params.mParams,
                 params.cParams,
                 params.mgParams,
+                params.sscParams,
                 params.baParams,
                 params.accountingToken,
                 params.tokenName,
@@ -105,15 +103,16 @@ contract HubStrategyDeploymentZap is StrategyDeploymentZapBase, IHubStrategyDepl
     }
 
     /// @dev Deploys a new Machine from a PreDepositVault via the HubCoreFactory.
-    function _deployMachineFromPreDeposit(
-        CreateMachineFromPreDepositZapParams calldata params,
-        IMachine.MachineInitParams memory mParams
-    ) internal returns (address) {
+    function _deployMachineFromPreDeposit(CreateMachineFromPreDepositZapParams memory params)
+        internal
+        returns (address)
+    {
         return IHubCoreFactory(hubCoreFactory)
             .createMachineFromPreDeposit(
-                mParams,
+                params.mParams,
                 params.cParams,
                 params.mgParams,
+                params.sscParams,
                 params.baParams,
                 params.preDepositVault,
                 params.salt,
@@ -123,7 +122,7 @@ contract HubStrategyDeploymentZap is StrategyDeploymentZapBase, IHubStrategyDepl
 
     /// @dev Links factory-created periphery modules to their Machine.
     function _linkFactoryCreatedModules(
-        PeripheryParams calldata pParams,
+        PeripheryParams memory pParams,
         IMachine.MachineInitParams memory mParams,
         address machine
     ) internal {
