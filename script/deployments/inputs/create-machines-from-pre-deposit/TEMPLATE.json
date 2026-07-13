@@ -1,0 +1,57 @@
+{
+  "executor": "0x0000000000000000000000000000000000000000",
+  "delay": 0,
+  "peripheryParams": {
+    "depositorImplemId": 0,
+    "redeemerImplemId": 0,
+    "feeManagerImplemId": 0,
+    "depositorInitData": "0x",
+    "redeemerInitData": "0x",
+    "feeManagerInitData": "0x"
+  },
+  "machineInitParams": {
+    "initialDepositor": "0x0000000000000000000000000000000000000000",
+    "initialRedeemer": "0x0000000000000000000000000000000000000000",
+    "initialFeeManager": "0x0000000000000000000000000000000000000000",
+    "initialCaliberStaleThreshold": 0,
+    "initialMaxFixedFeeAccrualRate": 0,
+    "initialMaxPerfFeeAccrualRate": 0,
+    "initialFeeMintCooldown": 0,
+    "initialShareLimit": 0,
+    "initialMaxSharePriceChangeRate": 0
+  },
+  "caliberInitParams": {
+    "initialPositionStaleThreshold": 0,
+    "initialAllowedInstrRoot": "0x0000000000000000000000000000000000000000000000000000000000000000",
+    "initialTimelockDuration": 0,
+    "initialMaxPositionIncreaseLossBps": 0,
+    "initialMaxPositionDecreaseLossBps": 0,
+    "initialMaxSwapLossBps": 0,
+    "initialCooldownDuration": 0,
+    "initialBaseTokens": ["0x0000000000000000000000000000000000000000"]
+  },
+  "makinaGovernableInitParams": {
+    "initialMechanic": "0x0000000000000000000000000000000000000000",
+    "initialSecurityCouncil": "0x0000000000000000000000000000000000000000",
+    "initialRiskManager": "0x0000000000000000000000000000000000000000",
+    "initialRiskManagerTimelock": "0x0000000000000000000000000000000000000000",
+    "initialAuthority": "0x0000000000000000000000000000000000000000",
+    "initialRestrictedAccountingMode": false,
+    "initialAccountingAgents": ["0x0000000000000000000000000000000000000000"]
+  },
+  "spokeSnapshotConsumerInitParams": {
+    "initialCreWorkflowIds": [
+      "0x0000000000000000000000000000000000000000000000000000000000000000"
+    ]
+  },
+  "bridgeAdapterInitParams": [
+    {
+      "bridgeId": 0,
+      "initData": "0x",
+      "initialMaxBridgeLossBps": 0
+    }
+  ],
+  "preDepositVault": "0x0000000000000000000000000000000000000000",
+  "salt": "0x0000000000000000000000000000000000000000000000000000000000000000",
+  "setupAMFunctionRoles": false
+}
