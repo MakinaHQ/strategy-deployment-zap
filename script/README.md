@@ -35,9 +35,37 @@ The schedule and execute scripts of a given variant read the **same** input file
 
 Set the `ZAP_OUTPUT_FILENAME` (from the zap deployment step), `HUB_STRAT_INPUT_FILENAME` and `HUB_STRAT_OUTPUT_FILENAME` values in your `.env` file.
 
+### Periphery module initialization data
+
+The `peripheryParams` field of a machine input file holds the ABI-encoded initialization data for the machine's periphery modules (depositor, redeemer, fee manager). Instead of encoding these blobs and pasting them in by hand, they are generated from human-readable, per-module config files.
+
+There is one folder per machine periphery slot, each containing a `TEMPLATE.json`:
+
+- `script/deployments/inputs/machine-depositors/`
+- `script/deployments/inputs/machine-redeemers/`
+- `script/deployments/inputs/machine-fee-managers/`
+
+Each config file declares its own `implemId` alongside the fields required by that implementation. The encoder selects how to parse and encode the file based on this `implemId`, so a single folder covers every implementation of a slot (for example, both `AsyncRedeemer` and `AsyncRedeemerFee` live in `machine-redeemers/`).
+
+Copy the relevant `TEMPLATE.json` files, fill them in, and set the following values in your `.env` file (leave a slot's variable unset to skip that module):
+
+- `DEPOSITOR_INPUT_FILENAME` - file in `machine-depositors/`
+- `REDEEMER_INPUT_FILENAME` - file in `machine-redeemers/`
+- `FEE_MANAGER_INPUT_FILENAME` - file in `machine-fee-managers/`
+- `HUB_STRAT_INPUT_SUBDIR` - `create-machines` (default) or `create-machines-from-pre-deposit`
+- `HUB_STRAT_INPUT_FILENAME` - the machine input file whose `peripheryParams` will be written
+
+Then run the following command to generate the init data:
+
+```
+forge script script/deployments/EncodePeripheryInitData.s.sol
+```
+
+This writes the `peripheryParams` (implementation IDs and encoded init data) into `script/deployments/inputs/{HUB_STRAT_INPUT_SUBDIR}/{HUB_STRAT_INPUT_FILENAME}`, leaving all other fields untouched. It only generates a local file and does not broadcast any transaction. To change the periphery setup, edit the per-module config files and re-run this script rather than hand-editing `peripheryParams`. Run this step before scheduling, and do not modify the input file between scheduling and executing.
+
 ### Plain Machine instance
 
-1. Copy `script/deployments/inputs/create-machines/TEMPLATE.json` to `script/deployments/inputs/create-machines/{HUB_STRAT_INPUT_FILENAME}` and fill in the required variables. Set `executor` to the address that will execute the deployment, and `delay` to the timelock delay in seconds.
+1. Copy `script/deployments/inputs/create-machines/TEMPLATE.json` to `script/deployments/inputs/create-machines/{HUB_STRAT_INPUT_FILENAME}` and fill in the required variables, except `peripheryParams`. Set `executor` to the address that will execute the deployment, and `delay` to the timelock delay in seconds. Then generate `peripheryParams` as described in [Periphery module initialization data](#periphery-module-initialization-data), with `HUB_STRAT_INPUT_SUBDIR=create-machines`.
 2. Run the following command from the zap owner to schedule the deployment.
 
 ```
@@ -52,7 +80,7 @@ forge script script/deployments/CreateMachine.s.sol --rpc-url <network-alias> --
 
 ### Machine instance from a Pre-Deposit Vault
 
-1. Copy `script/deployments/inputs/create-machines-from-pre-deposit/TEMPLATE.json` to `script/deployments/inputs/create-machines-from-pre-deposit/{HUB_STRAT_INPUT_FILENAME}` and fill in the required variables, including the `preDepositVault` address to migrate.
+1. Copy `script/deployments/inputs/create-machines-from-pre-deposit/TEMPLATE.json` to `script/deployments/inputs/create-machines-from-pre-deposit/{HUB_STRAT_INPUT_FILENAME}` and fill in the required variables, including the `preDepositVault` address to migrate, except `peripheryParams`. Then generate `peripheryParams` as described in [Periphery module initialization data](#periphery-module-initialization-data), with `HUB_STRAT_INPUT_SUBDIR=create-machines-from-pre-deposit`.
 2. Run the following command from the zap owner to schedule the deployment.
 
 ```

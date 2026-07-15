@@ -1,0 +1,10 @@
+{
+  "implemId": 0,
+  "mgmtFeeRatePerSecond": "0",
+  "smFeeRatePerSecond": "0",
+  "perfFeeRate": "0",
+  "mgmtFeeReceivers": ["0x0000000000000000000000000000000000000000"],
+  "mgmtFeeSplitBps": [10000],
+  "perfFeeReceivers": ["0x0000000000000000000000000000000000000000"],
+  "perfFeeSplitBps": [10000]
+}

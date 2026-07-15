@@ -1,0 +1,9 @@
+{
+  "implemId": 0,
+  "finalizationDelay": "0",
+  "minRedeemAmount": "0",
+  "whitelist": false,
+  "sanctionsCheck": false,
+  "redeemFeeRate": "0",
+  "maxRedeemFeeRate": "0"
+}
