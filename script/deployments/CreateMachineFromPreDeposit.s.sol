@@ -45,6 +45,12 @@ contract CreateMachineFromPreDeposit is CreateMachineZapBase {
         IHubStrategyDeploymentZap.CreateMachineFromPreDepositZapParams memory params =
             parseCreateMachineFromPreDepositZapParams(inputJson);
 
+        if (viewOnly) {
+            bytes memory data = abi.encodeCall(IHubStrategyDeploymentZap.createMachineFromPreDeposit, (params));
+            _logCalldata(address(zap), data);
+            return;
+        }
+
         vm.startBroadcast();
         deployedInstance = zap.createMachineFromPreDeposit(params);
         vm.stopBroadcast();

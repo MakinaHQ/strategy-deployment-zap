@@ -1,7 +1,10 @@
 // SPDX-License-Identifier: BUSL-1.1
 pragma solidity 0.8.28;
 
+// solhint-disable no-console
+
 import {Script} from "forge-std/Script.sol";
+import {console2} from "forge-std/console2.sol";
 import {stdJson} from "forge-std/StdJson.sol";
 
 import {JsonParser} from "@makina-core-test/utils/JsonParser.sol";
@@ -13,6 +16,16 @@ import {IHubStrategyDeploymentZap} from "src/interfaces/IHubStrategyDeploymentZa
 ///      hashes are identical, which is required for the timelock check in the zap to pass.
 abstract contract CreateMachineZapBase is Script, JsonParser {
     using stdJson for string;
+
+    /// @dev When true, scripts log the calldata they would broadcast instead of sending any transaction.
+    bool public viewOnly = vm.envOr("VIEW_ONLY", false);
+
+    /// @dev Logs the target and calldata a script would broadcast in view mode.
+    function _logCalldata(address target, bytes memory data) internal pure {
+        console2.log("target:", target);
+        console2.log("calldata:");
+        console2.logBytes(data);
+    }
 
     function parsePeripheryParams(string memory json, string memory key)
         internal

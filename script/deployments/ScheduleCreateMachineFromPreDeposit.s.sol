@@ -40,6 +40,12 @@ contract ScheduleCreateMachineFromPreDeposit is CreateMachineZapBase {
 
         bytes memory payload = abi.encodeCall(IHubStrategyDeploymentZap.createMachineFromPreDeposit, (params));
 
+        if (viewOnly) {
+            bytes memory data = abi.encodeCall(IStrategyDeploymentZap.scheduleDeployment, (executor, payload, delay));
+            _logCalldata(address(zap), data);
+            return;
+        }
+
         vm.startBroadcast();
         zap.scheduleDeployment(executor, payload, delay);
         vm.stopBroadcast();

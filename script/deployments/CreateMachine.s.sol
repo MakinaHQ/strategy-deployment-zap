@@ -44,6 +44,12 @@ contract CreateMachine is CreateMachineZapBase {
 
         IHubStrategyDeploymentZap.CreateMachineZapParams memory params = parseCreateMachineZapParams(inputJson);
 
+        if (viewOnly) {
+            bytes memory data = abi.encodeCall(IHubStrategyDeploymentZap.createMachine, (params));
+            _logCalldata(address(zap), data);
+            return;
+        }
+
         vm.startBroadcast();
         deployedInstance = zap.createMachine(params);
         vm.stopBroadcast();

@@ -35,6 +35,10 @@ The schedule and execute scripts of a given variant read the **same** input file
 
 Set the `ZAP_OUTPUT_FILENAME` (from the zap deployment step), `HUB_STRAT_INPUT_FILENAME` and `HUB_STRAT_OUTPUT_FILENAME` values in your `.env` file.
 
+### View mode
+
+Set `VIEW_ONLY=true` in your `.env` to run any of the schedule/execute scripts below without broadcasting: each one logs the target address and the calldata it would send, then exits without sending a transaction or writing an output file. This is useful to review a payload or to submit it from a multisig. Leave the variable unset (or `false`) for normal broadcasting.
+
 ### Periphery module initialization data
 
 The `peripheryParams` field of a machine input file holds the ABI-encoded initialization data for the machine's periphery modules (depositor, redeemer, fee manager). Instead of encoding these blobs and pasting them in by hand, they are generated from human-readable, per-module config files.
