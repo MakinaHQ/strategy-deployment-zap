@@ -1,0 +1,72 @@
+// SPDX-License-Identifier: BUSL-1.1
+pragma solidity 0.8.28;
+
+import {Test} from "forge-std/Test.sol";
+
+import {PeripheryInitEncoder} from "script/deployments/utils/PeripheryInitEncoder.sol";
+
+contract Deploy_Scripts_Utils_Test is Test, PeripheryInitEncoder {
+    function _read(string memory relPath) internal view returns (string memory) {
+        return vm.readFile(string.concat(vm.projectRoot(), "/script/deployments/inputs/", relPath));
+    }
+
+    function test_EncodeDirectDepositor() public view {
+        (uint16 implemId, bytes memory data) = encodeDepositorInitData(_read("machine-depositors/Test.json"));
+        assertEq(implemId, DIRECT_DEPOSITOR_IMPLEM_ID);
+        assertEq(
+            data,
+            hex"0000000000000000000000000000000000000000000000000000000000000000"
+            hex"0000000000000000000000000000000000000000000000000000000000000000"
+        );
+    }
+
+    function test_EncodeAsyncRedeemer() public view {
+        (uint16 implemId, bytes memory data) = encodeRedeemerInitData(_read("machine-redeemers/Test.json"));
+        assertEq(implemId, ASYNC_REDEEMER_IMPLEM_ID);
+        assertEq(
+            data,
+            hex"0000000000000000000000000000000000000000000000000000000000000e10"
+            hex"0000000000000000000000000000000000000000000000000000000000000064"
+            hex"0000000000000000000000000000000000000000000000000000000000000000"
+            hex"0000000000000000000000000000000000000000000000000000000000000000"
+        );
+    }
+
+    function test_EncodeAsyncRedeemerFee() public view {
+        (uint16 implemId, bytes memory data) = encodeRedeemerInitData(_read("machine-redeemers/TestFee.json"));
+        assertEq(implemId, ASYNC_REDEEMER_FEE_IMPLEM_ID);
+        assertEq(
+            data,
+            hex"0000000000000000000000000000000000000000000000000000000000000e10"
+            hex"0000000000000000000000000000000000000000000000000000000000000064"
+            hex"0000000000000000000000000000000000000000000000000000000000000000"
+            hex"0000000000000000000000000000000000000000000000000000000000000000"
+            hex"0000000000000000000000000000000000000000000000000000000000000064"
+            hex"0000000000000000000000000000000000000000000000000000000000002710"
+        );
+    }
+
+    function test_EncodeWatermarkFeeManager() public view {
+        (uint16 implemId, bytes memory data) = encodeFeeManagerInitData(_read("machine-fee-managers/Test.json"));
+        assertEq(implemId, WATERMARK_FEE_MANAGER_IMPLEM_ID);
+        assertEq(
+            data,
+            hex"0000000000000000000000000000000000000000000000000000000000000020"
+            hex"0000000000000000000000000000000000000000000000000000000000002710"
+            hex"0000000000000000000000000000000000000000000000000000000000002710"
+            hex"00000000000000000000000000000000000000000000000000005af3107a4000"
+            hex"00000000000000000000000000000000000000000000000000000000000000e0"
+            hex"0000000000000000000000000000000000000000000000000000000000000120"
+            hex"0000000000000000000000000000000000000000000000000000000000000160"
+            hex"00000000000000000000000000000000000000000000000000000000000001a0"
+            hex"0000000000000000000000000000000000000000000000000000000000000001"
+            hex"000000000000000000000000c7ffd2f13b32966d1872cc07ca777e4b74b7bde1"
+            hex"0000000000000000000000000000000000000000000000000000000000000001"
+            hex"0000000000000000000000000000000000000000000000000000000000002710"
+            hex"0000000000000000000000000000000000000000000000000000000000000001"
+            hex"000000000000000000000000c7ffd2f13b32966d1872cc07ca777e4b74b7bde1"
+            hex"0000000000000000000000000000000000000000000000000000000000000001"
+            hex"0000000000000000000000000000000000000000000000000000000000002710"
+        );
+    }
+}

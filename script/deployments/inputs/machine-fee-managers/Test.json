@@ -1,0 +1,10 @@
+{
+  "implemId": 3001,
+  "mgmtFeeRatePerSecond": "10000",
+  "smFeeRatePerSecond": "10000",
+  "perfFeeRate": "100000000000000",
+  "mgmtFeeReceivers": ["0xc7ffd2f13b32966d1872cc07ca777e4b74b7bde1"],
+  "mgmtFeeSplitBps": [10000],
+  "perfFeeReceivers": ["0xc7ffd2f13b32966d1872cc07ca777e4b74b7bde1"],
+  "perfFeeSplitBps": [10000]
+}

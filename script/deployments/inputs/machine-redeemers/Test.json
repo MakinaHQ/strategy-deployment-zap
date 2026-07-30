@@ -1,0 +1,7 @@
+{
+  "implemId": 2001,
+  "finalizationDelay": "3600",
+  "minRedeemAmount": "100",
+  "whitelist": false,
+  "sanctionsCheck": false
+}
