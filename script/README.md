@@ -22,6 +22,8 @@ Set the `ZAP_INPUT_FILENAME` and `ZAP_OUTPUT_FILENAME` values in your `.env` fil
 forge script script/deployments/DeployHubStrategyDeploymentZap.s.sol --rpc-url <network-alias> --account <keystore-name> --slow --broadcast --verify -vvvv
 ```
 
+Note: This script performs deterministic deployment based on the deployer wallet address via the [CreateX Factory contract](https://github.com/pcaversaccio/createx).
+
 The `initialOwner` set here is the address allowed to schedule and cancel deployments on the zap. It must also be granted the `STRATEGY_DEPLOYMENT_ROLE` in the Makina Core `AccessManager` for the deployments to succeed.
 
 ## Machine Creation
