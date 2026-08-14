@@ -1,6 +1,6 @@
 {
   "name": "strategy-deployment-zap",
-  "version": "v1.2.0",
+  "version": "v1.3.0",
   "description": "Makina strategy deployment zap contracts",
   "repository": "https://github.com/MakinaHQ/strategy-deployment-zap.git",
   "author": "MakinaHQ",
