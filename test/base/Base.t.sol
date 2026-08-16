@@ -27,14 +27,7 @@ import {HubStrategyDeploymentZap} from "../../src/HubStrategyDeploymentZap.sol";
 
 import {Base} from "./Base.sol";
 
-abstract contract Base_Test is
-    Base,
-    Test,
-    Core_base.Base,
-    Core_Constants.Constants,
-    Periphery_base.Base,
-    Periphery_Constants.Constants
-{
+abstract contract Base_Test is Base, Test, Core_Constants.Constants, Periphery_Constants.Constants {
     address public deployer;
 
     uint256 public hubChainId;
@@ -158,7 +151,7 @@ abstract contract Base_Hub_Test is Base_Test {
 
         // Zap
         hubStrategyDeploymentZap =
-            new HubStrategyDeploymentZap(dao, address(hubCoreFactory), address(hubPeripheryFactory));
+            deployHubStrategyDeploymentZap(dao, address(hubCoreFactory), address(hubPeripheryFactory));
 
         setupAccessManagerRoles(address(hubCoreFactory), address(hubStrategyDeploymentZap));
         transferAccessManagerOwnership();

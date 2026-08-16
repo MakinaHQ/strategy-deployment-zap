@@ -3,6 +3,8 @@ pragma solidity 0.8.28;
 
 import {Ownable} from "@openzeppelin/contracts/access/Ownable.sol";
 
+import {ChainsInfo} from "@makina-core-test/utils/ChainsInfo.sol";
+
 import {ICaliber} from "@makina-core/interfaces/ICaliber.sol";
 import {IMachine} from "@makina-core/interfaces/IMachine.sol";
 import {IMakinaGovernable} from "@makina-core/interfaces/IMakinaGovernable.sol";
@@ -28,6 +30,8 @@ contract Deploy_Scripts_Test is Integration_Concrete_Hub_Test {
     string internal constant FILE = "Test.json";
 
     function setUp() public virtual override {
+        vm.createSelectFork({urlOrAlias: ChainsInfo.getChainInfo(ChainsInfo.CHAIN_ID_ETHEREUM).foundryAlias});
+
         Integration_Concrete_Hub_Test.setUp();
 
         vm.setEnv("ZAP_INPUT_FILENAME", FILE);

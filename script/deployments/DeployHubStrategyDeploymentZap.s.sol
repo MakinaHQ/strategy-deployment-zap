@@ -4,13 +4,17 @@ pragma solidity 0.8.28;
 import {Script} from "forge-std/Script.sol";
 import {stdJson} from "forge-std/StdJson.sol";
 
+import {CreateXUtils} from "@makina-core-script/deployments/utils/CreateXUtils.sol";
+
 import {Base} from "../../test/base/Base.sol";
 
-contract DeployHubStrategyDeploymentZap is Base, Script {
+contract DeployHubStrategyDeploymentZap is Base, Script, CreateXUtils {
     using stdJson for string;
 
     string public inputJson;
     string public outputPath;
+
+    address public deployer;
 
     address public deployedInstance;
 
@@ -38,6 +42,8 @@ contract DeployHubStrategyDeploymentZap is Base, Script {
         // start broadcasting transactions
         vm.startBroadcast();
 
+        (, deployer,) = vm.readCallers();
+
         deployedInstance = address(deployHubStrategyDeploymentZap(initialOwner, hubCoreFactory, hubPeripheryFactory));
 
         vm.stopBroadcast();
@@ -45,5 +51,9 @@ contract DeployHubStrategyDeploymentZap is Base, Script {
         // write to file
         string memory key = "key-deploy-hub-strategy-deployment-zap-output-file";
         vm.writeJson(vm.serializeAddress(key, "HubStrategyDeploymentZap", deployedInstance), outputPath);
+    }
+
+    function _deployCode(bytes memory bytecode, bytes32 salt) internal override returns (address) {
+        return _deployCodeCreateX(bytecode, salt, deployer);
     }
 }

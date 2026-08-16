@@ -1,26 +1,14 @@
 {
   "lib/forge-std": {
-    "tag": {
-      "name": "v1.14.0",
-      "rev": "1801b0541f4fda118a10798fd3486bb7051c5dd6"
-    }
+    "rev": "1801b0541f4fda118a10798fd3486bb7051c5dd6"
   },
   "lib/makina-core": {
-    "tag": {
-      "name": "v1.1.0",
-      "rev": "ff6f03628cb41a65b3551e1decac61d49e6eb0ba"
-    }
+    "rev": "29e07319109a71202f69546b2da6a32017b119a0"
   },
   "lib/makina-periphery": {
-    "tag": {
-      "name": "v1.1.0",
-      "rev": "e73532be55e3e576d5839d0f38d9ce3a0632bb61"
-    }
+    "rev": "5be529a000f21271e2de28c9193262dbf073d3f1"
   },
   "lib/openzeppelin-contracts-upgradeable": {
-    "tag": {
-      "name": "v5.5.0",
-      "rev": "aa677e9d28ed78fc427ec47ba2baef2030c58e7c"
-    }
+    "rev": "7bf4727aacdbfaa0f36cbd664654d0c9e1dc52bf"
   }
 }
