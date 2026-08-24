@@ -18,7 +18,7 @@ Set the `ZAP_INPUT_FILENAME` and `ZAP_OUTPUT_FILENAME` values in your `.env` fil
 1. Copy `script/deployments/inputs/hub-strategy-deployment-zaps/TEMPLATE.json` to `script/deployments/inputs/hub-strategy-deployment-zaps/{ZAP_INPUT_FILENAME}` and fill in the required variables (`initialOwner`, `hubCoreFactory`, `hubPeripheryFactory`).
 2. Run the following command to initiate the deployment. This will generate an output file at `script/deployments/outputs/hub-strategy-deployment-zaps/{ZAP_OUTPUT_FILENAME}` containing the deployed contract address.
 
-```
+```sh
 forge script script/deployments/DeployHubStrategyDeploymentZap.s.sol --rpc-url <network-alias> --account <keystore-name> --slow --broadcast --verify -vvvv
 ```
 
@@ -72,6 +72,7 @@ This writes the `peripheryParams` (implementation IDs and encoded init data) int
 ### Plain Machine instance
 
 1. Copy `script/deployments/inputs/create-machines/TEMPLATE.json` to `script/deployments/inputs/create-machines/{HUB_STRAT_INPUT_FILENAME}` and fill in the required variables, except `peripheryParams`. Set `executor` to the address that will execute the deployment, and `delay` to the timelock delay in seconds. Then generate `peripheryParams` as described in [Periphery module initialization data](#periphery-module-initialization-data), with `HUB_STRAT_INPUT_SUBDIR=create-machines`.
+
 2. Run the following command from the zap owner to schedule the deployment.
 
 ```sh
@@ -87,6 +88,11 @@ forge script script/deployments/CreateMachine.s.sol --rpc-url <network-alias> --
 #### Create a Caliber on a spoke chain
 
 If you want to deploy a caliber, you can directly call [`SpokeCoreFactory.createCaliber`](https://docs.makina.finance/contracts/core/factories/SpokeCoreFactory.sol/contract.SpokeCoreFactory#createcaliber), more information in the [`MakinaHQ/makina-core`](https://github.com/MakinaHQ/makina-core/blob/main/script/deployments/DeploySpokeCaliber.s.sol) repo.
+
+Once the caliber is deployed, you will need to:
+
+1. Call [`Machine.setSpokeCaliber`](https://docs.makina.finance/contracts/core/interfaces/IMachine.sol/interface.IMachine#setspokecaliber) to set the caliber address on the machine.
+2. Call [`CaliberMailbox.setHubBridgeAdapter`](https://docs.makina.finance/contracts/core/caliber/CaliberMailbox.sol/contract.CaliberMailbox#sethubbridgeadapter) on the caliber mailbox.
 
 ### Machine instance from a Pre-Deposit Vault
 
