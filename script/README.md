@@ -63,7 +63,7 @@ Copy the relevant `TEMPLATE.json` files, fill them in, and set the following val
 
 Then run the following command to generate the init data:
 
-```
+```sh
 forge script script/deployments/EncodePeripheryInitData.s.sol
 ```
 
@@ -74,27 +74,31 @@ This writes the `peripheryParams` (implementation IDs and encoded init data) int
 1. Copy `script/deployments/inputs/create-machines/TEMPLATE.json` to `script/deployments/inputs/create-machines/{HUB_STRAT_INPUT_FILENAME}` and fill in the required variables, except `peripheryParams`. Set `executor` to the address that will execute the deployment, and `delay` to the timelock delay in seconds. Then generate `peripheryParams` as described in [Periphery module initialization data](#periphery-module-initialization-data), with `HUB_STRAT_INPUT_SUBDIR=create-machines`.
 2. Run the following command from the zap owner to schedule the deployment.
 
-```
+```sh
 forge script script/deployments/ScheduleCreateMachine.s.sol --rpc-url <network-alias> --account <keystore-name> --slow --broadcast -vvvv
 ```
 
 3. Once the delay has elapsed, run the following command from the `executor` address to execute the deployment. This will generate an output file at `script/deployments/outputs/create-machines/{HUB_STRAT_OUTPUT_FILENAME}` containing the deployed Machine and Caliber addresses.
 
-```
+```sh
 forge script script/deployments/CreateMachine.s.sol --rpc-url <network-alias> --account <keystore-name> --slow --broadcast -vvvv
 ```
+
+#### Create a Caliber on a spoke chain
+
+If you want to deploy a caliber, you can directly call [`SpokeCoreFactory.createCaliber`](https://docs.makina.finance/contracts/core/factories/SpokeCoreFactory.sol/contract.SpokeCoreFactory#createcaliber), more information in the [`MakinaHQ/makina-core`](https://github.com/MakinaHQ/makina-core/blob/main/script/deployments/DeploySpokeCaliber.s.sol) repo.
 
 ### Machine instance from a Pre-Deposit Vault
 
 1. Copy `script/deployments/inputs/create-machines-from-pre-deposit/TEMPLATE.json` to `script/deployments/inputs/create-machines-from-pre-deposit/{HUB_STRAT_INPUT_FILENAME}` and fill in the required variables, including the `preDepositVault` address to migrate, except `peripheryParams`. Then generate `peripheryParams` as described in [Periphery module initialization data](#periphery-module-initialization-data), with `HUB_STRAT_INPUT_SUBDIR=create-machines-from-pre-deposit`.
 2. Run the following command from the zap owner to schedule the deployment.
 
-```
+```sh
 forge script script/deployments/ScheduleCreateMachineFromPreDeposit.s.sol --rpc-url <network-alias> --account <keystore-name> --slow --broadcast -vvvv
 ```
 
 3. Once the delay has elapsed, run the following command from the `executor` address to execute the deployment. This will generate an output file at `script/deployments/outputs/create-machines-from-pre-deposit/{HUB_STRAT_OUTPUT_FILENAME}`.
 
-```
+```sh
 forge script script/deployments/CreateMachineFromPreDeposit.s.sol --rpc-url <network-alias> --account <keystore-name> --slow --broadcast -vvvv
 ```
