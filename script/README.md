@@ -26,6 +26,12 @@ Note: This script performs deterministic deployment based on the deployer wallet
 
 The `initialOwner` set here is the address allowed to schedule and cancel deployments on the zap. It must also be granted the `STRATEGY_DEPLOYMENT_ROLE` in the Makina Core `AccessManager` for the deployments to succeed.
 
+## Machine inputs from Notion
+
+For launches tracked in a Notion checklist (one row per machine plus a shared-parameters table), `yarn notion:export`
+generates the machine and periphery input files described below and `script/notion/run.sh` runs the encode, schedule and
+execute steps per machine. See [script/notion/README.md](notion/README.md).
+
 ## Machine Creation
 
 Creating a Machine through the zap is a two-phase, timelocked operation:

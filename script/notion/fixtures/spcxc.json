@@ -1,0 +1,240 @@
+{
+  "_comment": "Regression fixture: the Dialectic Yielding SPCXc deployment (Base), in the shape returned by export-machines.mjs' Notion reader. Exporting it must reproduce the SPCXc scheduleDeployment calldata.",
+  "machines": [
+    {
+      "_url": "https://app.notion.com/p/3cfed517186a8041b56eef7f3efa62af",
+      "Name": "SPCXc",
+      "Underlying": "Space Exploration Technologies Corp.",
+      "Accounting token (Base)": "0xb2000000000000000000007b9fcbd005511aCBd5",
+      "Token decimals": 8,
+      "Share token name": "Dialectic Yielding SPCXc",
+      "Share token symbol": "ySPCXc",
+      "Display name": "Starloop",
+      "Description": "",
+      "Logo SVG": [],
+      "Logo PNG 200x200": [],
+      "Oracle provider": "Chainlink",
+      "Feed 1 address": "0x6A634B235903C4ad6376892180d6fF8612e3Fa68",
+      "Feed 1 decimals": 8,
+      "Feed 1 staleness (s)": 87000,
+      "Feed 2 address": "",
+      "Feed 2 staleness (s)": null,
+      "Oracle registered": true,
+      "Salt": "0xac710a276bc6823441876ba13196dcbc6c023cbb2773dc800b4e51a148b6725f",
+      "Inputs confirmed": true,
+      "Stage": "Live"
+    }
+  ],
+  "shared": [
+    {
+      "Key": "zap.executor",
+      "Value": "0x36BA7c92Cd68051fB304Bd4580C4A51c1d376532",
+      "Confirmed": true
+    },
+    {
+      "Key": "zap.delay",
+      "Value": "0",
+      "Confirmed": true
+    },
+    {
+      "Key": "setupAMFunctionRoles",
+      "Value": "true",
+      "Confirmed": true
+    },
+    {
+      "Key": "bridgeAdapterInitParams",
+      "Value": "[]",
+      "Confirmed": true
+    },
+    {
+      "Key": "spokeSnapshotConsumerInitParams.initialCreWorkflowIds",
+      "Value": "[]",
+      "Confirmed": true
+    },
+    {
+      "Key": "depositor.implemId",
+      "Value": "1001",
+      "Confirmed": true
+    },
+    {
+      "Key": "depositor.whitelist",
+      "Value": "false",
+      "Confirmed": true
+    },
+    {
+      "Key": "depositor.sanctionsCheck",
+      "Value": "true",
+      "Confirmed": true
+    },
+    {
+      "Key": "redeemer.implemId",
+      "Value": "2001",
+      "Confirmed": true
+    },
+    {
+      "Key": "redeemer.finalizationDelay",
+      "Value": "259200",
+      "Confirmed": true
+    },
+    {
+      "Key": "redeemer.minRedeemAmount",
+      "Value": "10000000000000000",
+      "Confirmed": true
+    },
+    {
+      "Key": "redeemer.whitelist",
+      "Value": "false",
+      "Confirmed": true
+    },
+    {
+      "Key": "redeemer.sanctionsCheck",
+      "Value": "true",
+      "Confirmed": true
+    },
+    {
+      "Key": "feeManager.implemId",
+      "Value": "3001",
+      "Confirmed": true
+    },
+    {
+      "Key": "feeManager.mgmtFeeRatePerSecond",
+      "Value": "158548959",
+      "Confirmed": true
+    },
+    {
+      "Key": "feeManager.smFeeRatePerSecond",
+      "Value": "0",
+      "Confirmed": true
+    },
+    {
+      "Key": "feeManager.perfFeeRate",
+      "Value": "150000000000000000",
+      "Confirmed": true
+    },
+    {
+      "Key": "feeManager.mgmtFeeReceivers",
+      "Value": "0x7D51ADf77332c5BbD33f91de00646ebA099C0D2F, 0x68825BAfF4CaEDf6fAcc658269Cf1a0491F1Ba9f",
+      "Confirmed": true
+    },
+    {
+      "Key": "feeManager.mgmtFeeSplitBps",
+      "Value": "7000, 3000",
+      "Confirmed": true
+    },
+    {
+      "Key": "feeManager.perfFeeReceivers",
+      "Value": "0x7D51ADf77332c5BbD33f91de00646ebA099C0D2F, 0x68825BAfF4CaEDf6fAcc658269Cf1a0491F1Ba9f",
+      "Confirmed": true
+    },
+    {
+      "Key": "feeManager.perfFeeSplitBps",
+      "Value": "7000, 3000",
+      "Confirmed": true
+    },
+    {
+      "Key": "machineInitParams.initialCaliberStaleThreshold",
+      "Value": "172800",
+      "Confirmed": true
+    },
+    {
+      "Key": "machineInitParams.initialMaxFixedFeeAccrualRate",
+      "Value": "475646879",
+      "Confirmed": true
+    },
+    {
+      "Key": "machineInitParams.initialMaxPerfFeeAccrualRate",
+      "Value": "14269406392",
+      "Confirmed": true
+    },
+    {
+      "Key": "machineInitParams.initialFeeMintCooldown",
+      "Value": "86400",
+      "Confirmed": true
+    },
+    {
+      "Key": "machineInitParams.initialShareLimit",
+      "Value": "115792089237316195423570985008687907853269984665640564039457584007913129639935",
+      "Confirmed": true
+    },
+    {
+      "Key": "machineInitParams.initialMaxSharePriceChangeRate",
+      "Value": "31709791983",
+      "Confirmed": true
+    },
+    {
+      "Key": "caliberInitParams.initialPositionStaleThreshold",
+      "Value": "172800",
+      "Confirmed": true
+    },
+    {
+      "Key": "caliberInitParams.initialAllowedInstrRoot",
+      "Value": "0x0000000000000000000000000000000000000000000000000000000000000000",
+      "Confirmed": true
+    },
+    {
+      "Key": "caliberInitParams.initialTimelockDuration",
+      "Value": "3600",
+      "Confirmed": true
+    },
+    {
+      "Key": "caliberInitParams.initialMaxPositionIncreaseLossBps",
+      "Value": "50",
+      "Confirmed": true
+    },
+    {
+      "Key": "caliberInitParams.initialMaxPositionDecreaseLossBps",
+      "Value": "50",
+      "Confirmed": true
+    },
+    {
+      "Key": "caliberInitParams.initialMaxSwapLossBps",
+      "Value": "100",
+      "Confirmed": true
+    },
+    {
+      "Key": "caliberInitParams.initialCooldownDuration",
+      "Value": "12",
+      "Confirmed": true
+    },
+    {
+      "Key": "caliberInitParams.initialBaseTokens",
+      "Value": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+      "Confirmed": true
+    },
+    {
+      "Key": "makinaGovernableInitParams.initialMechanic",
+      "Value": "0x425BbC2cfF0c7E7960baA9BaC2f0Cb67B41d3beF",
+      "Confirmed": true
+    },
+    {
+      "Key": "makinaGovernableInitParams.initialSecurityCouncil",
+      "Value": "0x89faa3b02EF5aB185b8ACE489Af62748ACB50Afc",
+      "Confirmed": true
+    },
+    {
+      "Key": "makinaGovernableInitParams.initialRiskManager",
+      "Value": "0x36BA7c92Cd68051fB304Bd4580C4A51c1d376532",
+      "Confirmed": true
+    },
+    {
+      "Key": "makinaGovernableInitParams.initialRiskManagerTimelock",
+      "Value": "0x36BA7c92Cd68051fB304Bd4580C4A51c1d376532",
+      "Confirmed": true
+    },
+    {
+      "Key": "makinaGovernableInitParams.initialAuthority",
+      "Value": "0x0fCEfa3f1047F35521A49cD8B06faBd588665d7F",
+      "Confirmed": true
+    },
+    {
+      "Key": "makinaGovernableInitParams.initialRestrictedAccountingMode",
+      "Value": "true",
+      "Confirmed": true
+    },
+    {
+      "Key": "makinaGovernableInitParams.initialAccountingAgents",
+      "Value": "0xf415F3DEA67654bA2B7dc2344733e52Abb7A6095",
+      "Confirmed": true
+    }
+  ]
+}

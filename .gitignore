@@ -16,3 +16,6 @@ node_modules/
 
 # System files
 .DS_Store
+
+# Notion export artifacts (per-machine env + metadata)
+script/notion/out/
