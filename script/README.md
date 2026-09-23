@@ -28,9 +28,9 @@ The `initialOwner` set here is the address allowed to schedule and cancel deploy
 
 ## Machine inputs from Notion
 
-For launches tracked in a Notion checklist (one row per machine plus a shared-parameters table), `yarn notion:export`
-generates the machine and periphery input files described below and `script/notion/run.sh` runs the encode, schedule and
-execute steps per machine. See [script/notion/README.md](notion/README.md).
+Launches tracked in a Notion checklist (one row per machine plus a shared-parameters table) are turned into the input
+files below with the repo skill `.claude/skills/notion-machine-inputs/` (ask Claude Code to "prepare the machine inputs
+from the Notion checklist"). The skill's reference reproduces the SPCXc deployment end to end.
 
 ## Machine Creation
 

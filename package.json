@@ -17,7 +17,6 @@
     "prettier:check": "prettier --check \"**/*.{js,json,md,yml}\" \"!script/deployments/outputs/**/*\"",
     "prettier:write": "prettier --write \"**/*.{js,json,md,yml}\" \"!script/deployments/outputs/**/*\"",
     "coverage": "FOUNDRY_FUZZ_RUNS=32 forge coverage --no-match-coverage \"(script|test)\"",
-    "coverage:debug": "FOUNDRY_FUZZ_RUNS=32 forge coverage --no-match-coverage \"(script|test)\" --report debug",
-    "notion:export": "node script/notion/export-machines.mjs"
+    "coverage:debug": "FOUNDRY_FUZZ_RUNS=32 forge coverage --no-match-coverage \"(script|test)\" --report debug"
   }
 }
