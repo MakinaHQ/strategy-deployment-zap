@@ -1,0 +1,315 @@
+{
+  "version": "1.0",
+  "chainId": "8453",
+  "createdAt": 1790169325585,
+  "meta": {
+    "name": "xStocks oracle feed routes (7 machines)",
+    "description": "Register Chainlink Coinbase equity feeds in the Makina OracleRegistry on Base for the 7 Dialectic Yielding xStocks machines. Same shape as Safe tx nonce 67 (SPCXc oracle feed route setup, 2026-08-31): direct setFeedRoute calls from the DAO safe, feed1 only, 87000 s staleness. 1. AAPLc: token 0xb200000000000000000000C2e324d24d7eEcd1fb -> Chainlink 'Coinbase AAPL' proxy 0x787f13dEa48Db0897CbCDD985de77809D837F988, staleness 87000s, no feed2 | 2. AMZNc: token 0xb200000000000000000000d9192b6B456483C2E8 -> Chainlink 'Coinbase AMZN' proxy 0x06A8E4b3aBB3B7543d8396FB2B763d22820cB295, staleness 87000s, no feed2 | 3. GOOGLc: token 0xb2000000000000000000002D0BA3164cc74f58B7 -> Chainlink 'Coinbase GOOGL' proxy 0x5bF49E0ffA937CE2FfF033c739aD7C634c4D34F2, staleness 87000s, no feed2 | 4. METAc: token 0xb2000000000000000000008bC8786B856E61707C -> Chainlink 'Coinbase META' proxy 0x6526aE6797A76123638b863AeE4dD27Ba4E4b27D, staleness 87000s, no feed2 | 5. MSFTc: token 0xB200000000000000000000Ab99cFa739E253872B -> Chainlink 'Coinbase MSFT' proxy 0xeB10A6c9aa7E537aEd766C08c35Dae35B321b18c, staleness 87000s, no feed2 | 6. NVDAc: token 0xb20000000000000000000078ee7ce2fE4908108C -> Chainlink 'Coinbase NVDA' proxy 0x04689a41629776563E6822F76f2e57D148d28513, staleness 87000s, no feed2 | 7. TSLAc: token 0xb2000000000000000000001e800a7f5189430cD0 -> Chainlink 'Coinbase TSLA' proxy 0xFaf869185383a24F8cb00e27BdA6b63B9905DCb4, staleness 87000s, no feed2",
+    "txBuilderVersion": "1.18.0",
+    "createdFromSafeAddress": "0x62244C74e1d09b3D86EF7342d354b5D7770bDE10",
+    "createdFromOwnerAddress": ""
+  },
+  "transactions": [
+    {
+      "to": "0xC388B72AB90Be82B230D919F9C05c87F9397f485",
+      "value": "0",
+      "data": "0x0423fd1b000000000000000000000000b200000000000000000000c2e324d24d7eecd1fb000000000000000000000000787f13dea48db0897cbcdd985de77809d837f98800000000000000000000000000000000000000000000000000000000000153d800000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+      "contractMethod": {
+        "inputs": [
+          {
+            "name": "token",
+            "type": "address",
+            "internalType": "address"
+          },
+          {
+            "name": "feed1",
+            "type": "address",
+            "internalType": "address"
+          },
+          {
+            "name": "stalenessThreshold1",
+            "type": "uint256",
+            "internalType": "uint256"
+          },
+          {
+            "name": "feed2",
+            "type": "address",
+            "internalType": "address"
+          },
+          {
+            "name": "stalenessThreshold2",
+            "type": "uint256",
+            "internalType": "uint256"
+          }
+        ],
+        "name": "setFeedRoute",
+        "payable": false
+      },
+      "contractInputsValues": {
+        "token": "0xb200000000000000000000C2e324d24d7eEcd1fb",
+        "feed1": "0x787f13dEa48Db0897CbCDD985de77809D837F988",
+        "stalenessThreshold1": "87000",
+        "feed2": "0x0000000000000000000000000000000000000000",
+        "stalenessThreshold2": "0"
+      }
+    },
+    {
+      "to": "0xC388B72AB90Be82B230D919F9C05c87F9397f485",
+      "value": "0",
+      "data": "0x0423fd1b000000000000000000000000b200000000000000000000d9192b6b456483c2e800000000000000000000000006a8e4b3abb3b7543d8396fb2b763d22820cb29500000000000000000000000000000000000000000000000000000000000153d800000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+      "contractMethod": {
+        "inputs": [
+          {
+            "name": "token",
+            "type": "address",
+            "internalType": "address"
+          },
+          {
+            "name": "feed1",
+            "type": "address",
+            "internalType": "address"
+          },
+          {
+            "name": "stalenessThreshold1",
+            "type": "uint256",
+            "internalType": "uint256"
+          },
+          {
+            "name": "feed2",
+            "type": "address",
+            "internalType": "address"
+          },
+          {
+            "name": "stalenessThreshold2",
+            "type": "uint256",
+            "internalType": "uint256"
+          }
+        ],
+        "name": "setFeedRoute",
+        "payable": false
+      },
+      "contractInputsValues": {
+        "token": "0xb200000000000000000000d9192b6B456483C2E8",
+        "feed1": "0x06A8E4b3aBB3B7543d8396FB2B763d22820cB295",
+        "stalenessThreshold1": "87000",
+        "feed2": "0x0000000000000000000000000000000000000000",
+        "stalenessThreshold2": "0"
+      }
+    },
+    {
+      "to": "0xC388B72AB90Be82B230D919F9C05c87F9397f485",
+      "value": "0",
+      "data": "0x0423fd1b000000000000000000000000b2000000000000000000002d0ba3164cc74f58b70000000000000000000000005bf49e0ffa937ce2fff033c739ad7c634c4d34f200000000000000000000000000000000000000000000000000000000000153d800000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+      "contractMethod": {
+        "inputs": [
+          {
+            "name": "token",
+            "type": "address",
+            "internalType": "address"
+          },
+          {
+            "name": "feed1",
+            "type": "address",
+            "internalType": "address"
+          },
+          {
+            "name": "stalenessThreshold1",
+            "type": "uint256",
+            "internalType": "uint256"
+          },
+          {
+            "name": "feed2",
+            "type": "address",
+            "internalType": "address"
+          },
+          {
+            "name": "stalenessThreshold2",
+            "type": "uint256",
+            "internalType": "uint256"
+          }
+        ],
+        "name": "setFeedRoute",
+        "payable": false
+      },
+      "contractInputsValues": {
+        "token": "0xb2000000000000000000002D0BA3164cc74f58B7",
+        "feed1": "0x5bF49E0ffA937CE2FfF033c739aD7C634c4D34F2",
+        "stalenessThreshold1": "87000",
+        "feed2": "0x0000000000000000000000000000000000000000",
+        "stalenessThreshold2": "0"
+      }
+    },
+    {
+      "to": "0xC388B72AB90Be82B230D919F9C05c87F9397f485",
+      "value": "0",
+      "data": "0x0423fd1b000000000000000000000000b2000000000000000000008bc8786b856e61707c0000000000000000000000006526ae6797a76123638b863aee4dd27ba4e4b27d00000000000000000000000000000000000000000000000000000000000153d800000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+      "contractMethod": {
+        "inputs": [
+          {
+            "name": "token",
+            "type": "address",
+            "internalType": "address"
+          },
+          {
+            "name": "feed1",
+            "type": "address",
+            "internalType": "address"
+          },
+          {
+            "name": "stalenessThreshold1",
+            "type": "uint256",
+            "internalType": "uint256"
+          },
+          {
+            "name": "feed2",
+            "type": "address",
+            "internalType": "address"
+          },
+          {
+            "name": "stalenessThreshold2",
+            "type": "uint256",
+            "internalType": "uint256"
+          }
+        ],
+        "name": "setFeedRoute",
+        "payable": false
+      },
+      "contractInputsValues": {
+        "token": "0xb2000000000000000000008bC8786B856E61707C",
+        "feed1": "0x6526aE6797A76123638b863AeE4dD27Ba4E4b27D",
+        "stalenessThreshold1": "87000",
+        "feed2": "0x0000000000000000000000000000000000000000",
+        "stalenessThreshold2": "0"
+      }
+    },
+    {
+      "to": "0xC388B72AB90Be82B230D919F9C05c87F9397f485",
+      "value": "0",
+      "data": "0x0423fd1b000000000000000000000000b200000000000000000000ab99cfa739e253872b000000000000000000000000eb10a6c9aa7e537aed766c08c35dae35b321b18c00000000000000000000000000000000000000000000000000000000000153d800000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+      "contractMethod": {
+        "inputs": [
+          {
+            "name": "token",
+            "type": "address",
+            "internalType": "address"
+          },
+          {
+            "name": "feed1",
+            "type": "address",
+            "internalType": "address"
+          },
+          {
+            "name": "stalenessThreshold1",
+            "type": "uint256",
+            "internalType": "uint256"
+          },
+          {
+            "name": "feed2",
+            "type": "address",
+            "internalType": "address"
+          },
+          {
+            "name": "stalenessThreshold2",
+            "type": "uint256",
+            "internalType": "uint256"
+          }
+        ],
+        "name": "setFeedRoute",
+        "payable": false
+      },
+      "contractInputsValues": {
+        "token": "0xB200000000000000000000Ab99cFa739E253872B",
+        "feed1": "0xeB10A6c9aa7E537aEd766C08c35Dae35B321b18c",
+        "stalenessThreshold1": "87000",
+        "feed2": "0x0000000000000000000000000000000000000000",
+        "stalenessThreshold2": "0"
+      }
+    },
+    {
+      "to": "0xC388B72AB90Be82B230D919F9C05c87F9397f485",
+      "value": "0",
+      "data": "0x0423fd1b000000000000000000000000b20000000000000000000078ee7ce2fe4908108c00000000000000000000000004689a41629776563e6822f76f2e57d148d2851300000000000000000000000000000000000000000000000000000000000153d800000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+      "contractMethod": {
+        "inputs": [
+          {
+            "name": "token",
+            "type": "address",
+            "internalType": "address"
+          },
+          {
+            "name": "feed1",
+            "type": "address",
+            "internalType": "address"
+          },
+          {
+            "name": "stalenessThreshold1",
+            "type": "uint256",
+            "internalType": "uint256"
+          },
+          {
+            "name": "feed2",
+            "type": "address",
+            "internalType": "address"
+          },
+          {
+            "name": "stalenessThreshold2",
+            "type": "uint256",
+            "internalType": "uint256"
+          }
+        ],
+        "name": "setFeedRoute",
+        "payable": false
+      },
+      "contractInputsValues": {
+        "token": "0xb20000000000000000000078ee7ce2fE4908108C",
+        "feed1": "0x04689a41629776563E6822F76f2e57D148d28513",
+        "stalenessThreshold1": "87000",
+        "feed2": "0x0000000000000000000000000000000000000000",
+        "stalenessThreshold2": "0"
+      }
+    },
+    {
+      "to": "0xC388B72AB90Be82B230D919F9C05c87F9397f485",
+      "value": "0",
+      "data": "0x0423fd1b000000000000000000000000b2000000000000000000001e800a7f5189430cd0000000000000000000000000faf869185383a24f8cb00e27bda6b63b9905dcb400000000000000000000000000000000000000000000000000000000000153d800000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+      "contractMethod": {
+        "inputs": [
+          {
+            "name": "token",
+            "type": "address",
+            "internalType": "address"
+          },
+          {
+            "name": "feed1",
+            "type": "address",
+            "internalType": "address"
+          },
+          {
+            "name": "stalenessThreshold1",
+            "type": "uint256",
+            "internalType": "uint256"
+          },
+          {
+            "name": "feed2",
+            "type": "address",
+            "internalType": "address"
+          },
+          {
+            "name": "stalenessThreshold2",
+            "type": "uint256",
+            "internalType": "uint256"
+          }
+        ],
+        "name": "setFeedRoute",
+        "payable": false
+      },
+      "contractInputsValues": {
+        "token": "0xb2000000000000000000001e800a7f5189430cD0",
+        "feed1": "0xFaf869185383a24F8cb00e27BdA6b63B9905DCb4",
+        "stalenessThreshold1": "87000",
+        "feed2": "0x0000000000000000000000000000000000000000",
+        "stalenessThreshold2": "0"
+      }
+    }
+  ]
+}
