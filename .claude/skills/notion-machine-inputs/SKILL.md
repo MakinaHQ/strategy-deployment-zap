@@ -107,10 +107,8 @@ caliber addresses.
 
 Update the Machines row: `Schedule tx`, `Create tx`, `Machine`, `Caliber`, and `Stage`. Depositor, redeemer and fee
 manager addresses come from the machine's `depositor()`, `redeemer()`, `feeManager()` getters (`cast call`), and fill
-`Operator` from `operator()` (the mechanic unless Recovery Mode is on) and `CRE forwarder` from `creForwarder()` (the
-address allowed to deliver CRE reports; immutable, expected `0xF8344CFd5c43616a4366C34E3EEE75af79a74482` on Base).
-`CRE workflow id` is filled later by the CRE ticket once `addCreWorkflowId` has run. Shared rows whose key starts with
-`ref.` are reference values for reviewers and are not exported. Also hand the non-chain columns (Description, Logo SVG,
+`Operator` from `operator()` (the mechanic unless Recovery Mode is on). Shared rows whose key starts with `ref.` are
+reference values for reviewers and are not exported. Also hand the non-chain columns (Description, Logo SVG,
 Logo PNG 200x200, oracle feed) to whoever lists the machine in the app.
 
 ## Worked example
