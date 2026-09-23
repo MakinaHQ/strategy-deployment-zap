@@ -23,9 +23,25 @@ The export refuses to run while any machine row lacks `Inputs confirmed` or any 
 ## Setup
 
 - `yarn` (prettier is used to format the generated JSON).
-- In `.env`: `NOTION_TOKEN` for an internal integration that has access to the checklist page. `NOTION_MACHINES_DS` and
-  `NOTION_SHARED_DS` override the data source ids (they default to the xStocks checklist tables).
 - `BASE_RPC_URL` in `.env` for broadcasting on Base (`base` alias in `foundry.toml`).
+- `NOTION_TOKEN` in `.env`, from a Notion internal integration connected to the checklist page (below).
+  `NOTION_MACHINES_DS` and `NOTION_SHARED_DS` override the data source ids (they default to the xStocks checklist
+  tables).
+
+### Notion internal integration (one-time)
+
+The export reads the two tables over the Notion API with its own token. An internal integration only sees pages it
+has been explicitly connected to, so the blast radius is the checklist page.
+
+1. Go to <https://www.notion.so/profile/integrations> and create a new **internal** integration in the Makina
+   workspace (e.g. `strategy-deployment-zap export`).
+2. Capabilities: **Read content** only. Untick update, insert, comment and user information.
+3. Copy the internal integration secret (starts with `ntn_`).
+4. Open the checklist page in Notion, click the `...` menu, choose **Connections**, and add the integration. Access
+   flows down to the databases on the page.
+5. Put the secret in `.env` as `NOTION_TOKEN`. `.env` is gitignored; treat the token like the RPC keys in the same file.
+6. Run `yarn notion:export --dry-run --force` and check it lists the expected machines.
+7. Record who owns the integration so it can be rotated or removed after the launch.
 
 ## Usage
 
