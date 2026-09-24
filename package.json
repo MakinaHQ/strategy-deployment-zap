@@ -9,8 +9,6 @@
     "prettier": "3.8.1",
     "solhint": "6.2.1"
   },
-  "type": "module",
-  "dependencies": {},
   "scripts": {
     "lint": "yarn lint:sol && yarn prettier:check",
     "lint:sol": "forge fmt --check && yarn solhint \"{script,src,test}/**/*.sol\"",

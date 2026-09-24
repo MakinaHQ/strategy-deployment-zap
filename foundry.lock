@@ -6,16 +6,10 @@
     }
   },
   "lib/makina-core": {
-    "tag": {
-      "name": "v1.3.0",
-      "rev": "eb9a2fea6cac9f88783f9c769927ed7e5c2b7fd5"
-    }
+    "rev": "9a44b295cf14c0a25f65eb006f44bdd0c97408be"
   },
   "lib/makina-periphery": {
-    "tag": {
-      "name": "v1.3.0",
-      "rev": "72aab70ea8dcedba4658cd339dd07022e28ca1b2"
-    }
+    "rev": "51e42001130046213c87fec5ee7a3ade01c99077"
   },
   "lib/openzeppelin-contracts-upgradeable": {
     "tag": {

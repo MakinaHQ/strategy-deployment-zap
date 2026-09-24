@@ -6,7 +6,6 @@ evm_version = "cancun"
 solc_version = "0.8.28"
 optimizer = true
 ignored_warnings_from = ["lib"]
-ffi = true
 fs_permissions = [{ access = "read-write", path = "./"}]
 
 [rpc_endpoints]

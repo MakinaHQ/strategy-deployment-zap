@@ -2,7 +2,7 @@
   "bridgeAdapterInitParams": [],
   "caliberInitParams": {
     "initialAllowedInstrRoot": "0x0000000000000000000000000000000000000000000000000000000000000000",
-    "initialBaseTokens": ["0xe98c2E73E40560f5795a62f67e479927Af573340"],
+    "initialBaseTokens": ["0xD7b1C8614c1F3D9E5f455260ac78D8668F6BF3ab"],
     "initialCooldownDuration": 60,
     "initialMaxPositionDecreaseLossBps": 1000,
     "initialMaxPositionIncreaseLossBps": 100,
