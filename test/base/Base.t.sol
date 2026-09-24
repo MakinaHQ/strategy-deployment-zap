@@ -9,11 +9,9 @@ import {
 import {Ownable} from "@openzeppelin/contracts/access/Ownable.sol";
 import {UpgradeableBeacon} from "@openzeppelin/contracts/proxy/beacon/UpgradeableBeacon.sol";
 
-import "@makina-core-test/base/Base.sol" as Core_base;
-import "@makina-core-test/utils/Constants.sol" as Core_Constants;
+import {Constants as CoreConstants} from "@makina-core-test/utils/Constants.sol";
 
-import "@makina-periphery-test/base/Base.sol" as Periphery_base;
-import "@makina-periphery-test/utils/Constants.sol" as Periphery_Constants;
+import {Constants as PeripheryConstants} from "@makina-periphery-test/utils/Constants.sol";
 
 import {HubCoreRegistry} from "@makina-core/registries/HubCoreRegistry.sol";
 import {HubCoreFactory} from "@makina-core/factories/HubCoreFactory.sol";
@@ -27,7 +25,7 @@ import {HubStrategyDeploymentZap} from "../../src/HubStrategyDeploymentZap.sol";
 
 import {Base} from "./Base.sol";
 
-abstract contract Base_Test is Base, Test, Core_Constants.Constants, Periphery_Constants.Constants {
+abstract contract Base_Test is Base, Test, CoreConstants, PeripheryConstants {
     address public deployer;
 
     uint256 public hubChainId;
@@ -103,7 +101,7 @@ abstract contract Base_Hub_Test is Base_Test {
         FlashloanProviders memory flp;
 
         // Hub Core
-        Core_base.Base.HubCore memory hubCore = deployHubCore(deployer, address(0));
+        HubCore memory hubCore = deployHubCore(deployer, address(0));
         accessManager = hubCore.accessManager;
         oracleRegistry = hubCore.oracleRegistry;
         hubCoreRegistry = hubCore.hubCoreRegistry;
@@ -118,7 +116,7 @@ abstract contract Base_Hub_Test is Base_Test {
         hubCoreRegistry.setPreDepositVaultBeacon(address(preDepositVaultBeacon));
 
         // Hub Periphery
-        Periphery_base.Base.HubPeriphery memory hubPeriphery =
+        HubPeriphery memory hubPeriphery =
             deployHubPeriphery(address(accessManager), address(hubCoreRegistry), address(0), flp);
         hubPeripheryRegistry = hubPeriphery.hubPeripheryRegistry;
         hubPeripheryFactory = hubPeriphery.hubPeripheryFactory;
