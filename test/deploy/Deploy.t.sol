@@ -50,6 +50,23 @@ contract Deploy_Scripts_Test is Integration_Concrete_Hub_Test {
         assertEq(zap.hubPeripheryFactory(), vm.parseJsonAddress(inputJson, ".hubPeripheryFactory"));
     }
 
+    function testScript_DeployHubStrategyDeploymentZap_RevertWhen_AlreadyDeployed() public {
+        DeployHubStrategyDeploymentZap deployZap = new DeployHubStrategyDeploymentZap();
+        deployZap.run();
+
+        address occupied = deployZap.deployedInstance();
+
+        deployZap = new DeployHubStrategyDeploymentZap();
+        vm.expectRevert(
+            bytes(
+                string.concat(
+                    "DeployHubStrategyDeploymentZap: CREATE3 target already has code: ", vm.toString(occupied)
+                )
+            )
+        );
+        deployZap.run();
+    }
+
     function testScript_CreateMachine() public {
         _ensureDir("outputs/create-machines");
 
