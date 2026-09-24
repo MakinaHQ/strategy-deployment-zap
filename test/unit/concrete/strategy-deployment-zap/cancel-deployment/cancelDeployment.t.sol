@@ -23,13 +23,13 @@ abstract contract CancelDeployment_Unit_Concrete_Test is StrategyDeploymentZap_U
         strategyDeploymentZap.cancelDeployment(address(0), 0);
     }
 
-    function test_RevertWhen_DeploymentNotScheduled() public {
+    function test_RevertGiven_DeploymentNotScheduled() public {
         vm.expectRevert(IStrategyDeploymentZap.DeploymentNotScheduled.selector);
         vm.prank(dao);
         strategyDeploymentZap.cancelDeployment(address(0), 0);
     }
 
-    function test_RevertWhen_DeploymentAlreadyExecuted() public {
+    function test_RevertGiven_DeploymentAlreadyExecuted() public {
         // Simulate execution of a deployment
         vm.store(
             address(strategyDeploymentZap),
