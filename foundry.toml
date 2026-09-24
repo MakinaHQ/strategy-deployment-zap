@@ -5,11 +5,9 @@ libs = ["lib"]
 evm_version = "cancun"
 solc_version = "0.8.28"
 optimizer = true
+ignored_warnings_from = ["lib"]
 ffi = true
 fs_permissions = [{ access = "read-write", path = "./"}]
 
 [rpc_endpoints]
 mainnet = "${MAINNET_RPC_URL}"
-
-[etherscan]
-1 = { key = "${MAINNET_ETHERSCAN_API_KEY}", url = "${MAINNET_ETHERSCAN_API_URL}" }
