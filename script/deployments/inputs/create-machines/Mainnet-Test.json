@@ -1,9 +1,9 @@
 {
-  "accountingToken": "0xFA8a1be9aF1b6A2Ad7b4E6C5BBf45072A45A699b",
+  "accountingToken": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
   "bridgeAdapterInitParams": [],
   "caliberInitParams": {
     "initialAllowedInstrRoot": "0x0000000000000000000000000000000000000000000000000000000000000000",
-    "initialBaseTokens": ["0xD7b1C8614c1F3D9E5f455260ac78D8668F6BF3ab"],
+    "initialBaseTokens": ["0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2"],
     "initialCooldownDuration": 60,
     "initialMaxPositionDecreaseLossBps": 1000,
     "initialMaxPositionIncreaseLossBps": 100,
@@ -26,7 +26,7 @@
   },
   "makinaGovernableInitParams": {
     "initialAccountingAgents": ["0x3c0C6bB01A972001A1FB0608b81892125E0f4280"],
-    "initialAuthority": "0x2e234DAe75C793f67A35089C9d99245E1C58470b",
+    "initialAuthority": "0x0000000000000000000000000000000000000000",
     "initialMechanic": "0x170535d5562cC2821BCd490FFFd5F2d3cc01666F",
     "initialRestrictedAccountingMode": false,
     "initialRiskManager": "0x3d31c8BE0Ba9aF33BC4b9bCCBf27773F1368C4bD",

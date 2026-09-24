@@ -4,15 +4,17 @@ pragma solidity 0.8.28;
 // solhint-disable gas-custom-errors, reason-string
 
 import {Script} from "forge-std/Script.sol";
-import {stdJson} from "forge-std/StdJson.sol";
 
 import {CreateXUtils} from "@makina-core-script/deploy/utils/CreateXUtils.sol";
 
 import {Base} from "../../test/base/Base.sol";
 
+/// @dev Deploys the HubStrategyDeploymentZap.
+///
+/// Env vars (unless `setFilenames` was called):
+///   ZAP_INPUT_FILENAME  - zap init params input file
+///   ZAP_OUTPUT_FILENAME - file to write the deployed address to
 contract DeployHubStrategyDeploymentZap is Base, Script, CreateXUtils {
-    using stdJson for string;
-
     string public inputJson;
     string public outputPath;
 
@@ -20,35 +22,59 @@ contract DeployHubStrategyDeploymentZap is Base, Script, CreateXUtils {
 
     address public deployedInstance;
 
-    constructor() {
-        string memory inputFilename = vm.envString("ZAP_INPUT_FILENAME");
-        string memory outputFilename = vm.envString("ZAP_OUTPUT_FILENAME");
+    /// @dev Overrides the factory addresses from the input file when non-zero.
+    address public hubCoreFactory;
+    address public hubPeripheryFactory;
 
+    /// @dev Test hook to set the input/output filenames explicitly, instead of having `run` resolve them from the
+    ///      env vars. An empty output filename skips writing the output file.
+    function setFilenames(string memory inputFilename, string memory outputFilename) public {
         string memory basePath = string.concat(vm.projectRoot(), "/script/deployments/");
 
-        // load input params
-        string memory inputPath = string.concat(basePath, "inputs/hub-strategy-deployment-zaps/");
-        inputPath = string.concat(inputPath, inputFilename);
-        inputJson = vm.readFile(inputPath);
+        inputJson = vm.readFile(string.concat(basePath, "inputs/hub-strategy-deployment-zaps/", inputFilename));
 
-        // output path to later save deployed contract
-        outputPath = string.concat(basePath, "outputs/hub-strategy-deployment-zaps/");
-        outputPath = string.concat(outputPath, outputFilename);
+        outputPath = bytes(outputFilename).length == 0
+            ? ""
+            : string.concat(basePath, "outputs/hub-strategy-deployment-zaps/", outputFilename);
+    }
+
+    /// @dev Test hook to set the core and periphery factories, which the input file of a test run cannot hold, as
+    ///      they are deployed by the test itself.
+    function setFactories(address _hubCoreFactory, address _hubPeripheryFactory) public {
+        hubCoreFactory = _hubCoreFactory;
+        hubPeripheryFactory = _hubPeripheryFactory;
+    }
+
+    /// @dev Calls `setParams` with this script's env vars.
+    function loadParamsFromEnv() public {
+        setFilenames(vm.envString("ZAP_INPUT_FILENAME"), vm.envString("ZAP_OUTPUT_FILENAME"));
     }
 
     function run() public {
+        if (bytes(inputJson).length == 0) {
+            loadParamsFromEnv();
+        }
+
         address initialOwner = vm.parseJsonAddress(inputJson, ".initialOwner");
-        address hubCoreFactory = vm.parseJsonAddress(inputJson, ".hubCoreFactory");
-        address hubPeripheryFactory = vm.parseJsonAddress(inputJson, ".hubPeripheryFactory");
+
+        address coreFactory =
+            hubCoreFactory != address(0) ? hubCoreFactory : vm.parseJsonAddress(inputJson, ".hubCoreFactory");
+        address peripheryFactory = hubPeripheryFactory != address(0)
+            ? hubPeripheryFactory
+            : vm.parseJsonAddress(inputJson, ".hubPeripheryFactory");
 
         // start broadcasting transactions
         vm.startBroadcast();
 
         (, deployer,) = vm.readCallers();
 
-        deployedInstance = address(deployHubStrategyDeploymentZap(initialOwner, hubCoreFactory, hubPeripheryFactory));
+        deployedInstance = address(deployHubStrategyDeploymentZap(initialOwner, coreFactory, peripheryFactory));
 
         vm.stopBroadcast();
+
+        if (bytes(outputPath).length == 0) {
+            return;
+        }
 
         // write to file
         string memory key = "key-deploy-hub-strategy-deployment-zap-output-file";

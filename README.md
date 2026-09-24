@@ -1,4 +1,4 @@
-# Makina Deployment Zap Contracts
+# Makina Strategy Deployment Zap Contracts
 
 This repository contains a zap contract to facilitate deployment of Makina strategies. The zap contract orchestrates the creation and setup of a Hub strategy instance (Machine + periphery modules + Caliber) in a single scheduled transaction, using a timelock mechanism for deployment governance.
 
@@ -12,13 +12,7 @@ See `SPECIFICATIONS.md` and `PERMISSIONS.md` for more details.
 
 ## Installation
 
-Follow [this link](https://book.getfoundry.sh/getting-started/installation) to install the Foundry toolchain.
-
-Run below commands to install and use Foundry:
-
-```shell
-foundryup
-```
+Follow [this link](https://getfoundry.sh/introduction/installation) to install the Foundry toolchain.
 
 ## Submodules
 
@@ -38,7 +32,7 @@ yarn
 
 ### Build
 
-Run below command to compile all other contracts
+Run below command to compile contracts
 
 ```shell
 forge build
@@ -69,3 +63,7 @@ forge fmt
 ```shell
 yarn lint
 ```
+
+### Deployment
+
+See `script/README.md` for instructions.
