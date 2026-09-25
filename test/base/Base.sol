@@ -5,15 +5,15 @@ import {
     AccessManagerUpgradeable
 } from "@openzeppelin/contracts-upgradeable/access/manager/AccessManagerUpgradeable.sol";
 
-import "@makina-core-test/base/Base.sol" as Core_base;
+import {Base as CoreBase} from "@makina-core-test/base/Base.sol";
 import {Roles} from "@makina-core/libraries/Roles.sol";
 
-import "@makina-periphery-test/base/Base.sol" as Periphery_base;
+import {Base as PeripheryBase} from "@makina-periphery-test/base/Base.sol";
 
 import {HubStrategyDeploymentZap} from "../../src/HubStrategyDeploymentZap.sol";
 import {SaltDomains} from "../utils/SaltDomains.sol";
 
-abstract contract Base is SaltDomains, Core_base.Base, Periphery_base.Base {
+abstract contract Base is SaltDomains, CoreBase, PeripheryBase {
     function deployHubStrategyDeploymentZap(address initialOwner, address hubCoreFactory, address hubPeripheryFactory)
         public
         returns (HubStrategyDeploymentZap)

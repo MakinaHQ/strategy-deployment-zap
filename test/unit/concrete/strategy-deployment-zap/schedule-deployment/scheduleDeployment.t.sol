@@ -21,7 +21,7 @@ abstract contract ScheduleDeployment_Unit_Concrete_Test is StrategyDeploymentZap
         strategyDeploymentZap.scheduleDeployment(address(0), "", 0);
     }
 
-    function test_RevertWhen_DeploymentAlreadyExecuted() public {
+    function test_RevertGiven_DeploymentAlreadyExecuted() public {
         bytes32 payloadHash = keccak256(payload);
 
         // Simulate execution of a deployment
@@ -36,7 +36,7 @@ abstract contract ScheduleDeployment_Unit_Concrete_Test is StrategyDeploymentZap
         strategyDeploymentZap.scheduleDeployment(address(executor), payload, 0);
     }
 
-    function test_RevertWhen_DeploymentAlreadyScheduled() public {
+    function test_RevertGiven_DeploymentAlreadyScheduled() public {
         vm.prank(dao);
         strategyDeploymentZap.scheduleDeployment(address(executor), payload, 0);
 

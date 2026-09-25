@@ -4,27 +4,33 @@ This README outlines the steps to deploy the `HubStrategyDeploymentZap` contract
 
 ## Environment setup
 
-- Copy `.env.example` to `.env` and fill in the required RPC URLs, Etherscan API URLs, and API keys.
-- Some networks are preconfigured in `foundry.toml` and only require the corresponding environment variables. More networks can be added following similar configuration.
-- The commands below use a foundry keystore to specify the deployment wallet (`--account <keystore-name>`). For other options, refer to the [Foundry docs](https://getfoundry.sh/forge/reference/script/).
+- Copy `.env.example` to `.env` and fill in the required RPC URLs and the Etherscan API key.
+- Mainnet is preconfigured in `foundry.toml` and only requires the corresponding environment variable. More networks can be added following similar configuration.
 - Notation used in the commands:
-  - `<keystore-name>` - the name of a Foundry keystore containing the deployer's private key
+  - `<wallet-options>` - the flags specifying the deployer wallet, e.g. `--account <keystore-name>` for a Foundry keystore. For other options, refer to the [Foundry docs](https://getfoundry.sh/forge/reference/script/)
   - `<network-alias>` - must match a network name declared in `foundry.toml`
+- Each script documents its env vars in its NatSpec header.
 
 ## Zap Contract Deployment
 
 Set the `ZAP_INPUT_FILENAME` and `ZAP_OUTPUT_FILENAME` values in your `.env` file to define the input and output JSON filenames, respectively. For example, for a deployment on Ethereum Mainnet, both of these files can be named `Mainnet.json`.
 
-1. Copy `script/deployments/inputs/hub-strategy-deployment-zaps/TEMPLATE.json` to `script/deployments/inputs/hub-strategy-deployment-zaps/{ZAP_INPUT_FILENAME}` and fill in the required variables (`initialOwner`, `hubCoreFactory`, `hubPeripheryFactory`).
-2. Run the following command to initiate the deployment. This will generate an output file at `script/deployments/outputs/hub-strategy-deployment-zaps/{ZAP_OUTPUT_FILENAME}` containing the deployed contract address.
+1. Copy `script/deploy/inputs/hub-strategy-deployment-zaps/TEMPLATE.json` to `script/deploy/inputs/hub-strategy-deployment-zaps/{ZAP_INPUT_FILENAME}` and fill in the required variables (`initialOwner`, `hubCoreFactory`, `hubPeripheryFactory`).
+2. Run the following command to initiate the deployment. This will generate an output file at `script/deploy/outputs/hub-strategy-deployment-zaps/{ZAP_OUTPUT_FILENAME}` containing the deployed contract address.
 
-```
-forge script script/deployments/DeployHubStrategyDeploymentZap.s.sol --rpc-url <network-alias> --account <keystore-name> --slow --broadcast --verify -vvvv
+```shell
+forge script script/deploy/DeployHubStrategyDeploymentZap.s.sol --rpc-url <network-alias> <wallet-options> --slow --broadcast --verify -vvvv
 ```
 
 Note: This script performs deterministic deployment based on the deployer wallet address via the [CreateX Factory contract](https://github.com/pcaversaccio/createx).
 
-The `initialOwner` set here is the address allowed to schedule and cancel deployments on the zap. It must also be granted the `STRATEGY_DEPLOYMENT_ROLE` in the Makina Core `AccessManager` for the deployments to succeed.
+The `initialOwner` set here is the address allowed to schedule and cancel deployments on the zap.
+
+The zap calls the core and periphery factories on its own behalf, so the **deployed zap address** must be granted the `STRATEGY_DEPLOYMENT_ROLE` in the Makina Core `AccessManager` for the deployments to succeed. Once the zap address is known, an `AccessManager` admin submits:
+
+```solidity
+accessManager.grantRole(STRATEGY_DEPLOYMENT_ROLE, <deployed-zap-address>, 0)
+```
 
 ## Machine Creation
 
@@ -39,7 +45,7 @@ Set the `ZAP_OUTPUT_FILENAME` (from the zap deployment step), `HUB_STRAT_INPUT_F
 
 ### View mode
 
-Set `VIEW_ONLY=true` in your `.env` to run any of the schedule/execute scripts below without broadcasting: each one logs the target address and the calldata it would send, then exits without sending a transaction or writing an output file. This is useful to review a payload or to submit it from a multisig. Leave the variable unset (or `false`) for normal broadcasting.
+Set `VIEW_MODE=true` in your `.env` to run any of the schedule/execute scripts below without broadcasting: each one logs the target address and the calldata it would send, then exits without sending a transaction or writing an output file. `HUB_STRAT_OUTPUT_FILENAME` is not needed in this mode. This is useful to review a payload or to submit it from a multisig. Leave the variable unset (or `false`) for normal broadcasting.
 
 ### Periphery module initialization data
 
@@ -47,9 +53,9 @@ The `peripheryParams` field of a machine input file holds the ABI-encoded initia
 
 There is one folder per machine periphery slot, each containing a `TEMPLATE.json`:
 
-- `script/deployments/inputs/machine-depositors/`
-- `script/deployments/inputs/machine-redeemers/`
-- `script/deployments/inputs/machine-fee-managers/`
+- `script/deploy/inputs/machine-depositors/`
+- `script/deploy/inputs/machine-redeemers/`
+- `script/deploy/inputs/machine-fee-managers/`
 
 Each config file declares its own `implemId` alongside the fields required by that implementation. The encoder selects how to parse and encode the file based on this `implemId`, so a single folder covers every implementation of a slot (for example, both `AsyncRedeemer` and `AsyncRedeemerFee` live in `machine-redeemers/`).
 
@@ -63,38 +69,47 @@ Copy the relevant `TEMPLATE.json` files, fill them in, and set the following val
 
 Then run the following command to generate the init data:
 
-```
-forge script script/deployments/EncodePeripheryInitData.s.sol
+```shell
+forge script script/deploy/EncodePeripheryInitData.s.sol
 ```
 
-This writes the `peripheryParams` (implementation IDs and encoded init data) into `script/deployments/inputs/{HUB_STRAT_INPUT_SUBDIR}/{HUB_STRAT_INPUT_FILENAME}`, leaving all other fields untouched. It only generates a local file and does not broadcast any transaction. To change the periphery setup, edit the per-module config files and re-run this script rather than hand-editing `peripheryParams`. Run this step before scheduling, and do not modify the input file between scheduling and executing.
+This writes the `peripheryParams` (implementation IDs and encoded init data) into `script/deploy/inputs/{HUB_STRAT_INPUT_SUBDIR}/{HUB_STRAT_INPUT_FILENAME}`, leaving all other fields untouched. It only generates a local file and does not broadcast any transaction. To change the periphery setup, edit the per-module config files and re-run this script rather than hand-editing `peripheryParams`. Run this step before scheduling, and do not modify the input file between scheduling and executing.
 
 ### Plain Machine instance
 
-1. Copy `script/deployments/inputs/create-machines/TEMPLATE.json` to `script/deployments/inputs/create-machines/{HUB_STRAT_INPUT_FILENAME}` and fill in the required variables, except `peripheryParams`. Set `executor` to the address that will execute the deployment, and `delay` to the timelock delay in seconds. Then generate `peripheryParams` as described in [Periphery module initialization data](#periphery-module-initialization-data), with `HUB_STRAT_INPUT_SUBDIR=create-machines`.
+1. Copy `script/deploy/inputs/create-machines/TEMPLATE.json` to `script/deploy/inputs/create-machines/{HUB_STRAT_INPUT_FILENAME}` and fill in the required variables, except `peripheryParams`. Set `executor` to the address that will execute the deployment, and `delay` to the timelock delay in seconds. Then generate `peripheryParams` as described in [Periphery module initialization data](#periphery-module-initialization-data), with `HUB_STRAT_INPUT_SUBDIR=create-machines`.
 2. Run the following command from the zap owner to schedule the deployment.
 
-```
-forge script script/deployments/ScheduleCreateMachine.s.sol --rpc-url <network-alias> --account <keystore-name> --slow --broadcast -vvvv
+```shell
+forge script script/deploy/ScheduleCreateMachine.s.sol --rpc-url <network-alias> <wallet-options> --slow --broadcast -vvvv
 ```
 
-3. Once the delay has elapsed, run the following command from the `executor` address to execute the deployment. This will generate an output file at `script/deployments/outputs/create-machines/{HUB_STRAT_OUTPUT_FILENAME}` containing the deployed Machine and Caliber addresses.
+3. Once the delay has elapsed, run the following command from the `executor` address to execute the deployment. This will generate an output file at `script/deploy/outputs/create-machines/{HUB_STRAT_OUTPUT_FILENAME}` containing the deployed Machine and Caliber addresses.
 
-```
-forge script script/deployments/CreateMachine.s.sol --rpc-url <network-alias> --account <keystore-name> --slow --broadcast -vvvv
+```shell
+forge script script/deploy/CreateMachine.s.sol --rpc-url <network-alias> <wallet-options> --slow --broadcast -vvvv
 ```
 
 ### Machine instance from a Pre-Deposit Vault
 
-1. Copy `script/deployments/inputs/create-machines-from-pre-deposit/TEMPLATE.json` to `script/deployments/inputs/create-machines-from-pre-deposit/{HUB_STRAT_INPUT_FILENAME}` and fill in the required variables, including the `preDepositVault` address to migrate, except `peripheryParams`. Then generate `peripheryParams` as described in [Periphery module initialization data](#periphery-module-initialization-data), with `HUB_STRAT_INPUT_SUBDIR=create-machines-from-pre-deposit`.
+1. Copy `script/deploy/inputs/create-machines-from-pre-deposit/TEMPLATE.json` to `script/deploy/inputs/create-machines-from-pre-deposit/{HUB_STRAT_INPUT_FILENAME}` and fill in the required variables, including the `preDepositVault` address to migrate, except `peripheryParams`. Then generate `peripheryParams` as described in [Periphery module initialization data](#periphery-module-initialization-data), with `HUB_STRAT_INPUT_SUBDIR=create-machines-from-pre-deposit`.
 2. Run the following command from the zap owner to schedule the deployment.
 
-```
-forge script script/deployments/ScheduleCreateMachineFromPreDeposit.s.sol --rpc-url <network-alias> --account <keystore-name> --slow --broadcast -vvvv
+```shell
+forge script script/deploy/ScheduleCreateMachineFromPreDeposit.s.sol --rpc-url <network-alias> <wallet-options> --slow --broadcast -vvvv
 ```
 
-3. Once the delay has elapsed, run the following command from the `executor` address to execute the deployment. This will generate an output file at `script/deployments/outputs/create-machines-from-pre-deposit/{HUB_STRAT_OUTPUT_FILENAME}`.
+3. Once the delay has elapsed, run the following command from the `executor` address to execute the deployment. This will generate an output file at `script/deploy/outputs/create-machines-from-pre-deposit/{HUB_STRAT_OUTPUT_FILENAME}`.
 
+```shell
+forge script script/deploy/CreateMachineFromPreDeposit.s.sol --rpc-url <network-alias> <wallet-options> --slow --broadcast -vvvv
 ```
-forge script script/deployments/CreateMachineFromPreDeposit.s.sol --rpc-url <network-alias> --account <keystore-name> --slow --broadcast -vvvv
-```
+
+## Spoke Caliber
+
+The zap only deploys the hub side of a strategy. Extending a Machine to a spoke chain is done outside of this repository, using the `DeploySpokeCaliber.s.sol` script of the [makina-core](https://github.com/MakinaHQ/makina-core/blob/main/script/deploy/DeploySpokeCaliber.s.sol) repository, which calls [`SpokeCoreFactory.createCaliber`](https://docs.makina.finance/contracts/core/factories/SpokeCoreFactory.sol/contract.SpokeCoreFactory#createcaliber).
+
+Once the Caliber is deployed, link it to the Machine:
+
+1. Call [`Machine.setSpokeCaliber`](https://docs.makina.finance/contracts/core/interfaces/IMachine.sol/interface.IMachine#setspokecaliber) on the hub chain, providing the spoke chain ID, the deployed Caliber mailbox address, and the supported bridges with their spoke adapters.
+2. Call [`CaliberMailbox.setHubBridgeAdapter`](https://docs.makina.finance/contracts/core/caliber/CaliberMailbox.sol/contract.CaliberMailbox#sethubbridgeadapter) on the spoke chain, for each bridge, to register the corresponding hub bridge adapter.
