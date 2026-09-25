@@ -49,7 +49,7 @@ abstract contract CreateMachineZapBase is Script, JsonParser {
     function setParams(address _zap, string memory inputFilename, string memory outputFilename) public {
         zap = _zap;
 
-        string memory basePath = string.concat(vm.projectRoot(), "/script/deployments/");
+        string memory basePath = string.concat(vm.projectRoot(), "/script/deploy/");
 
         inputJson = vm.readFile(string.concat(basePath, "inputs/", _recordDir(), "/", inputFilename));
 
@@ -118,9 +118,8 @@ abstract contract CreateMachineZapBase is Script, JsonParser {
 
     /// @dev Zap address read from a zap deployment output record.
     function _zapFromRecord(string memory outputFilename) internal view returns (address) {
-        string memory recordPath = string.concat(
-            vm.projectRoot(), "/script/deployments/outputs/hub-strategy-deployment-zaps/", outputFilename
-        );
+        string memory recordPath =
+            string.concat(vm.projectRoot(), "/script/deploy/outputs/hub-strategy-deployment-zaps/", outputFilename);
         return vm.parseJsonAddress(vm.readFile(recordPath), ".HubStrategyDeploymentZap");
     }
 

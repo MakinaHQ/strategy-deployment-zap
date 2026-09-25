@@ -4,7 +4,7 @@ pragma solidity 0.8.28;
 import {IHubStrategyDeploymentZap} from "src/interfaces/IHubStrategyDeploymentZap.sol";
 import {IStrategyDeploymentZap} from "src/interfaces/IStrategyDeploymentZap.sol";
 
-import {CreateMachineZapBase} from "./CreateMachineZapBase.s.sol";
+import {CreateMachineZapBase} from "./base/CreateMachineZapBase.s.sol";
 
 /// @dev Schedules a `createMachine` deployment through the zap. Must be run from the zap owner.
 contract ScheduleCreateMachine is CreateMachineZapBase {

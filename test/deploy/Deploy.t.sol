@@ -13,11 +13,11 @@ import {PreDepositVault} from "@makina-core/pre-deposit/PreDepositVault.sol";
 import {Roles} from "@makina-core/libraries/Roles.sol";
 import {MockPriceFeed} from "@makina-core-test/mocks/MockPriceFeed.sol";
 
-import {DeployHubStrategyDeploymentZap} from "script/deployments/DeployHubStrategyDeploymentZap.s.sol";
-import {ScheduleCreateMachine} from "script/deployments/ScheduleCreateMachine.s.sol";
-import {CreateMachine} from "script/deployments/CreateMachine.s.sol";
-import {ScheduleCreateMachineFromPreDeposit} from "script/deployments/ScheduleCreateMachineFromPreDeposit.s.sol";
-import {CreateMachineFromPreDeposit} from "script/deployments/CreateMachineFromPreDeposit.s.sol";
+import {DeployHubStrategyDeploymentZap} from "script/deploy/DeployHubStrategyDeploymentZap.s.sol";
+import {ScheduleCreateMachine} from "script/deploy/ScheduleCreateMachine.s.sol";
+import {CreateMachine} from "script/deploy/CreateMachine.s.sol";
+import {ScheduleCreateMachineFromPreDeposit} from "script/deploy/ScheduleCreateMachineFromPreDeposit.s.sol";
+import {CreateMachineFromPreDeposit} from "script/deploy/CreateMachineFromPreDeposit.s.sol";
 
 import {IHubStrategyDeploymentZap} from "src/interfaces/IHubStrategyDeploymentZap.sol";
 import {IStrategyDeploymentZap} from "src/interfaces/IStrategyDeploymentZap.sol";
@@ -43,7 +43,7 @@ contract Deploy_Scripts_Test is Integration_Concrete_Hub_Test {
     }
 
     function test_LoadParamsFromEnv() public {
-        string memory basePath = string.concat(vm.projectRoot(), "/script/deployments/");
+        string memory basePath = string.concat(vm.projectRoot(), "/script/deploy/");
         string memory filename = _testFilename();
         string memory zapOutputJson =
             vm.readFile(string.concat(basePath, "outputs/hub-strategy-deployment-zaps/", filename));
@@ -304,6 +304,6 @@ contract Deploy_Scripts_Test is Integration_Concrete_Hub_Test {
     ///      without rewriting them. A failing comparison means the record must be regenerated, by running the
     ///      script with that output filename.
     function _record(string memory dir, string memory filename) internal view returns (string memory) {
-        return vm.readFile(string.concat(vm.projectRoot(), "/script/deployments/outputs/", dir, "/", filename));
+        return vm.readFile(string.concat(vm.projectRoot(), "/script/deploy/outputs/", dir, "/", filename));
     }
 }

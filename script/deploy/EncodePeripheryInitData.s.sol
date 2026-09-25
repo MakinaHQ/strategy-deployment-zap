@@ -22,7 +22,7 @@ import {PeripheryInitEncoder} from "./utils/PeripheryInitEncoder.sol";
 ///        - HUB_STRAT_INPUT_FILENAME    target machine-creation input file to patch (required)
 contract EncodePeripheryInitData is Script, PeripheryInitEncoder {
     function run() public {
-        string memory inputsBase = string.concat(vm.projectRoot(), "/script/deployments/inputs/");
+        string memory inputsBase = string.concat(vm.projectRoot(), "/script/deploy/inputs/");
 
         uint16 depositorImplemId;
         bytes memory depositorInitData;
